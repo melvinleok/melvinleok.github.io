@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos & Simulations | mathml.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+        <a href="index.html" class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
+        </a>
+        <div class="flex gap-8 font-medium text-slate-600">
+            <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+            <a href="research.html" class="hover:text-blue-600 transition">Research</a>
+            <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+        </div>
+    </nav>
+
+    <header class="py-16 px-6 text-center bg-white border-b border-slate-200">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4">Lectures & Simulations</h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+            Exploring the intersection of geometric mechanics, variational integrators, and next-generation autonomy.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-20 px-6">
+        <div class="grid md:grid-cols-2 gap-12">
+            
+                        <div class="space-y-4">
+                <div class="video-container shadow-xl">
+                    <iframe src="https://www.youtube.com/embed/O7gq9hPXztg?si=gwo0muzaKexvO0Va" title="Geometric Numerical Integration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <h3 class="text-xl font-bold">Geometric Numerical Integration</h3>
+                <p class="text-slate-600 text-sm">
+                    An introduction to geometric numerical integration and its role in the simulation of complex engineered systems like robots and drones.</p>
+            </div>
+            
+            
+            <div class="space-y-4">
+                <div class="video-container shadow-xl">
+                    <iframe src="https://www.youtube.com/embed/tGpVNd5vDDc?si=7T17WwdoQUJ0_Kpn" title="Geometric Foundations of Accelerated Optimization" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <h3 class="text-xl font-bold">Geometric Foundations of Accelerated Optimization</h3>
+                <p class="text-slate-600 text-sm">
+                    A discussion on how geometric numerical methods inform the development of accelerated optimization algorithms that arise in machine learning.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="video-container shadow-xl">
+                    <iframe src="https://www.youtube.com/embed/jfMzC63f1Xg?si=x7JMIDZ0mXb0J9u-" title="Geometric Formulations of Field Theories" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <h3 class="text-xl font-bold">Geometric Formulations of Field Theories</h3>
+                <p class="text-slate-600 text-sm">
+                    A description of how geometric mechanics can be used to describe physical field theories.
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-slate-200 text-center text-slate-400 text-xs uppercase tracking-widest">
+        <p>&copy; 2026 MATHML.AI</p>
+    </footer>
+
+</body>
+</html>
