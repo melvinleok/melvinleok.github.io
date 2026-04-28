@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research | Geometric Digital Twins | mathml.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hero-bg { background: radial-gradient(circle at 0% 0%, #f8fafc 0%, #f1f5f9 100%); }
+        .feature-card { transition: transform 0.2s ease; }
+        .feature-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+        <a href="index.html" class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
+        </a>
+        <div class="flex gap-8 font-medium text-slate-600">
+            <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+            <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+        </div>
+    </nav>
+
+    <header class="hero-bg py-24 px-6 border-b border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">Core Research</h2>
+            <h1 class="text-5xl md:text-6xl font-black tracking-tight mb-8">
+                Geometric Foundations of <span class="text-blue-600">Digital Twins</span>
+            </h1>
+            <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
+                Bridging the gap between physical reality and virtual simulation through a unified geometric framework for hierarchical, interconnected systems.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-24 px-6 space-y-24">
+
+        <section>
+            <h2 class="text-3xl font-extrabold mb-6">The Physical-Digital Loop</h2>
+            <div class="prose prose-slate lg:prose-lg text-slate-600 space-y-6">
+                <p>
+                    Digital twins are more than high-fidelity virtual representations; they are tightly coupled with their physical counterparts in a continuous feedback loop. The physical system informs the digital twin via sensors and data assimilation, while the digital twin informs the physical counterpart via decision and control.
+                </p>
+                <p>
+                    Our research develops a unified geometric framework for constructing <strong>hierarchical digital twins</strong>. This approach couples continuous high-fidelity models with reduced-order surrogates and data-aware machine learning, ensuring consistency across all levels of parameterization.
+                </p>
+            </div>
+        </section>
+
+        <section class="grid md:grid-cols-2 gap-8">
+            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-blue-600">Variational Integrators</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Structure-preserving numerical methods that preserve momentum and symplectic structure. These methods yield superior qualitative accuracy and energy behavior over long timescales.
+                </p>
+            </div>
+            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-blue-600">Dirac Mechanics</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    A geometric description of interconnected, multi-physics systems. Dirac structures encode holonomic and nonholonomic constraints essential for modeling multibody dynamics and circuits.
+                </p>
+            </div>
+            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-blue-600">Manifold Autonomy</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Configuration spaces for robots and autonomous vehicles naturally reside on Lie groups. Our work ensures robust, accurate, and geometric structure-preserving discretizations on these manifolds.
+                </p>
+            </div>
+            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-blue-600">Symplectic Optimization</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    We systematically discretize the flow of Bregman Hamiltonians to obtain time-adaptive optimization algorithms that outperform standard accelerated gradient methods.
+                </p>
+            </div>
+        </section>
+
+        <section class="bg-slate-900 rounded-[2rem] p-10 md:p-16 text-white">
+            <h2 class="text-3xl font-bold mb-6 text-blue-400">Physics-Informed Learning</h2>
+            <div class="space-y-6 text-slate-300">
+                <p class="text-lg">
+                    Training deep neural networks can be viewed through the lens of adjoint sensitivity analysis. We demonstrate that the preservation of presymplectic structures is essential for efficient training of physics-informed neural networks and interconnected systems.
+                </p>
+                <div class="bg-slate-800 rounded-xl p-6 font-mono text-sm border border-slate-700">
+                    <span class="text-blue-400"># Symplectic Equivalence Theorem</span><br>
+                    Adjoint(Discretize(System)) == Discretize(Adjoint(System))<br>
+                    <span class="text-slate-500">// Only valid when the numerical method is symplectic.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-12 border-t border-slate-200 text-center text-slate-400 text-xs uppercase tracking-widest">
+        <p>&copy; 2026 MathML.ai | Computational Science, Mathematics and Engineering (CSME)</p>
+    </footer>
+
+</body>
+</html>
