@@ -3,66 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mathml.ai | Geometric Numerical Methods for Robotics</title>
+    <title>mathml.ai | Geometric Foundations of Digital Twins</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .gradient-text {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero-gradient {
-            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent),
-                        radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.1), transparent);
+        .hero-bg {
+            background: radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
         }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-white text-slate-900 selection:bg-blue-100">
 
-    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <div class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">M</div>
-            <span class="text-xl font-bold tracking-tight">mathml<span class="text-blue-600">.ai</span></span>
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">M</div>
+                <span class="text-xl font-extrabold tracking-tight">mathml<span class="text-blue-600">.ai</span></span>
+            </div>
+            <div class="hidden md:flex gap-8 font-semibold text-slate-600">
+                <a href="research.html" class="hover:text-blue-600 transition">Research</a>
+                <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+                <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
+            </div>
+            <a href="mailto:mleok@ucsd.edu" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
+                Get Started
+            </a>
         </div>
-        <div class="hidden md:flex gap-8 font-medium text-slate-600">
-            <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
-            <a href="research.html" class="hover:text-blue-600 transition">Research</a>
-        </div>
-        <a href="mailto:mleok@ucsd.edu" class="bg-slate-900 text-white px-5 py-2 rounded-full font-medium hover:bg-slate-800 transition">
-            Get Started
-        </a>
     </nav>
 
-    <header class="hero-gradient pt-16 pb-24 px-6">
-        <div class="max-w-5xl mx-auto text-center">
-            <div class="mb-8 flex justify-center">
-                <img src="logo.png" alt="MathML.ai Logo" class="h-32 md:h-48 drop-shadow-xl">
+    <header class="hero-bg pt-20 pb-32 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="mb-10 flex justify-center">
+                <img src="logo.svg" alt="MathML.ai Logo" class="h-40 md:h-56 drop-shadow-2xl">
             </div>
             
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-                A Unified <span class="gradient-text">Mathematical Representation</span> for Advanced AI.
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-tight">
+                Unified <span class="gradient-text">Mathematical Representation</span> for Advanced AI.
             </h1>
-            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed">
-                Bridging the gap between theoretical geometry and practical AI deployment. Optimized for geometric numerical methods in robotics, autonomous drones, and neural manifolds.
+            <p class="text-xl md:text-2xl text-slate-500 max-w-3xl mx-auto mb-12 leading-relaxed">
+                Bridging the gap between theoretical geometry and practical AI deployment in robotics, autonomy, and hierarchical digital twins.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-<a href="founder.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-200 hover:bg-blue-700 transition text-center">
-        Meet the Founder
-    </a>
-    <a href="research.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-200 hover:bg-blue-700 transition text-center">
-        Digital Twins
-    </a>
-    <a href="mailto:mleok@ucsd.edu" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-200 hover:bg-blue-700 transition text-center">
-        Contact us
-    </a>
+            <div class="flex flex-col sm:flex-row gap-5 justify-center">
+                <a href="research.html" class="bg-blue-600 text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-blue-100 hover:bg-blue-700 hover:-translate-y-1 transition">
+                    Explore Research Statement
+                </a>
+                                <a href="mailto:mleok@ucsd.edu" class="bg-blue-600 text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-blue-100 hover:bg-blue-700 hover:-translate-y-1 transition">
+                    Contact Us
+                </a>
             </div>
         </div>
     </header>
 
-    <section class="py-24 px-6 max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-3 gap-12">
-            <div class="space-y-4">
-                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center">
-                    <svg xmlns="
+    <section class="py-24 bg-slate-50 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16 max-w-2xl">
+                <h2 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">The Challenge</h2>
+                <h3 class="text-4xl font-extrabold tracking-tight text-slate-900">Closing the Foundational Gaps in Digital Twins</h3>
+                <p class="mt-6 text-lg text-slate-600 leading-relaxed">
+                    Digital twins require a rigorous mathematical foundation where the physical and digital counterparts are tightly coupled in a feedback loop. We leverage computational geometric mechanics to construct integrators using discrete analogues of variational mechanics.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 card-hover">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Variational Integrators</h4>
+                    <p class="text-slate-500 leading-relaxed text-sm">
+                        Structure-preserving numerical methods, based on a discrete Hamilton’s principle, that exhibit excellent energy behavior and preserve momentum and symplectic structure over long timescales.
+                    </p>
+                </div>
+
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 card-hover">
+                    <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.482V5.518a2 2 0 011.553-1.943L9 2l5.447 2.724A2 2 0 0116 6.669V15.48a2 2 0 01-1.553 1.943L9 20z"/></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Manifold Awareness</h4>
+                    <p class="text-slate-500 leading-relaxed text-sm">
+                        Nonlinear manifolds, such as Lie groups and homogeneous spaces, arise naturally as configuration manifolds for robots and autonomous drones.
+                    </p>
+                </div>
+
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 card-hover">
+                    <div class="w-14 h-14 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-8">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a2 2 0 00-1.96 1.414l-.727 2.903a2 2 0 01-3.664 0l-.727-2.903a2 2 0 00-1.96-1.414l-2.387.477a2 2 0 00-1.022.547l2.14 2.14a2 2 0 010 2.828l-1.414 1.414a2 2 0 01-2.828 0l-2.14-2.14a2 2 0 00-.547 1.022l-.477 2.387a2 2 0 001.414 1.96l2.903.727a2 2 0 010 3.664l-2.903.727a2 2 0 00-1.414 1.96l.477 2.387a2 2 0 001.022.547l2.14-2.14a2 2 0 012.828 0l1.414 1.414a2 2 0 010 2.828l-2.14 2.14a2 2 0 00.547 1.022l2.387.477a2 2 0 001.96-1.414l.727-2.903a2 2 0 013.664 0l.727 2.903a2 2 0 001.96 1.414l2.387-.477a2 2 0 001.022-.547l-2.14-2.14a2 2 0 010-2.828l1.414-1.414a2 2 0 012.828 0l2.14 2.14a2 2 0 00.547-1.022l.477-2.387a2 2 0 00-1.414-1.96l-2.903-.727a2 2 0 010-3.664l2.903-.727a2 2 0 001.414-1.96l-.477-2.387a2 2 0 00-1.022-.547l-2.14 2.14a2 2 0 01-2.828 0l-1.414-1.414a2 2 0 010-2.828l2.14-2.14z"/></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Accelerated Optimization</h4>
+                    <p class="text-slate-500 leading-relaxed text-sm">
+                        Symplectic optimization discretizes Bregman Hamiltonians to achieve convergence rates of O(1/tᵖ), outperforming standard Nesterov methods.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-slate-900 overflow-hidden">
+        <div class="max-w-5xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+            <div class="flex-1 text-white">
+                <h3 class="text-3xl font-bold mb-6 italic">Mathematically-Informed Learning</h3>
+                <p class="text-slate-400 text-lg leading-relaxed mb-8">
+                    The preservation of presymplectic structures is essential for efficient adjoint sensitivity computation when training physics-informed neural networks.
+                </p>
+                <div class="flex gap-6">
+                    <div>
+                        <div class="text-blue-400 font-bold text-2xl mb-1">99.9%</div>
+                        <div class="text-xs text-slate-500 uppercase tracking-widest font-bold">Energy Consistency</div>
+                    </div>
+                    <div>
+                        <div class="text-purple-400 font-bold text-2xl mb-1">O(1/tᵖ)</div>
+                        <div class="text-xs text-slate-500 uppercase tracking-widest font-bold">Optimization Rate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 w-full bg-slate-950 p-1 rounded-3xl border border-slate-800 shadow-2xl">
+                <div class="bg-slate-900 px-4 py-3 rounded-t-2xl border-b border-slate-800 flex gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/40"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/40"></div>
+                </div>
+                <pre class="p-8 text-blue-300 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-purple-400">def</span> <span class="text-blue-400">train_digital_twin</span>(model, physical_data):
+    <span class="text-slate-500"># Discretize via Symplectic Adjoint Sensitivity</span>
+    gradient = ml.symplectic_adjoint(model, physical_data)
+    
+    <span class="text-slate-500"># Apply structure-preserving updates</span>
+    model.update(gradient, method=<span class="text-yellow-200">"bregman_variational"</span>)
+    
+    <span class="text-purple-400">return</span> model.energy_drift() <span class="text-slate-500"># Near-zero over long timescales</span></code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 max-w-5xl mx-auto">
+        <div class="bg-white rounded-[3rem] border border-slate-100 p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center shadow-sm">
+            <div class="w-48 h-48 rounded-3xl overflow-hidden shadow-xl bg-slate-200 flex-shrink-0">
+                <img src="melvin-leok.jpg" alt="Melvin Leok" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <h3 class="text-3xl font-black mb-2">Melvin Leok, Ph.D.</h3>
+                <p class="text-blue-600 font-bold mb-6">Founder & PI | Caltech '04 | UCSD Professor</p>
+                <p class="text-slate-600 leading-relaxed mb-8">
+                    Aiming to develop a unified geometric framework for constructing and training hierarchical digital twins that couple continuous, high-fidelity, and data-aware machine-learning models.
+                </p>
+                <a href="founder.html" class="text-slate-900 font-bold border-b-2 border-blue-600 hover:text-blue-600 transition pb-1">
+                    Read the Biography
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 bg-slate-50 border-t border-slate-100 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-sm">M</div>
+                <span class="font-bold tracking-tight">mathml<span class="text-blue-600">.ai</span></span>
+            </div>
+            <p class="text-slate-400 text-sm tracking-wide">
+                &copy; 2026 MATHML.AI
+            </p>
+            <div class="flex gap-8 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                <a href="https://www.linkedin.com/in/mleok/" class="hover:text-blue-600">LinkedIn</a>
+                <a href="https://www.youtube.com/user/melvinleok" class="hover:text-blue-600">YouTube</a>
+                <a href="http://arxiv.org/find/math/1/au:+Leok_M/0/1/0/all/0/1" class="hover:text-blue-600">ArXiv</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
