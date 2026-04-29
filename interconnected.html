@@ -14,18 +14,23 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
 
-    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-<div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">M</div>
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">M</div>
 <a href="/" class="flex items-center gap-2">
             <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
         </a>
-
-        <div class="flex gap-8 font-medium text-slate-600">
-            <a href="/" class="hover:text-blue-600 transition">Home</a>
+            </div>
+            <div class="hidden md:flex gap-8 font-semibold text-slate-600">
             <a href="research.html" class="hover:text-blue-600 transition">Research</a>
             <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
             <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
             <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
+            </div>
+            <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
+                Contact Us
+            </a>
         </div>
     </nav>
 
