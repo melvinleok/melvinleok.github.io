@@ -69,7 +69,7 @@
             <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
             <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
             <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
-                <a href="#mailto:mleok@ucsd.edu" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
+                <a href="mailto:mleok@ucsd.edu" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
                     Get Started
                 </a>
             </div>
@@ -232,6 +232,32 @@ src="https://c.statcounter.com/13224859/0/1724f293/0/"
 alt="Web Analytics Made Easy - Statcounter"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 <!-- End of Statcounter Code -->
+
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    menuBtn.addEventListener('click', () => {
+        // Toggle the 'open' class which controls the height and padding
+        mobileMenu.classList.toggle('open');
+        
+        // Change the SVG path to an 'X' icon when open, and back to hamburger when closed
+        if (mobileMenu.classList.contains('open')) {
+            menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+        } else {
+            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        }
+    });
+
+    // Optional: Close the menu automatically when a link is clicked
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        });
+    });
+</script>
 
 </body>
 </html>
