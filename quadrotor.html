@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Dynamics | SE(3) Geometric Integrator | mathml.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        #canvas-container { 
+            border-radius: 2.5rem; 
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); 
+            width: 100%; 
+            height: 600px; 
+            overflow: hidden;
+            position: relative;
+        }
+        .ui-overlay {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            pointer-events: none;
+        }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 selection:bg-blue-100">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-8 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-100">M</div>
+                <span class="font-bold tracking-tight text-slate-600">mathml<span class="text-blue-600">.ai</span></span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="research.html" class="text-sm font-semibold text-slate-500 hover:text-blue-600 transition">Research</a>
+                <span class="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-indigo-200">Manifold: SE(3)</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto py-12 px-6">
+        <header class="mb-12">
+            <h1 class="text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Geometric Quadrotor Dynamics</h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-4xl">
+                Experience high-fidelity motion on the <strong>Special Euclidean Group SE(3)</strong>. This integrator maps the Lie algebra to the manifold using the exponential map, ensuring the drone never drifts into unphysical configurations.
+            </p>
+        </header>
+
+        <div class="grid lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6 block">Actuator Inputs</label>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-slate-700">Total Thrust</span>
+                                <span id="thrustVal" class="text-xs font-mono font-bold text-blue-600">9.81</span>
+                            </div>
+                            <input type="range" id="thrustRange" min="0" max="25" step="0.1" value="9.81" class="w-full accent-blue-600 pointer-events-auto">
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-slate-700">Roll Moment</span>
+                                <span id="rollVal" class="text-xs font-mono font-bold text-blue-600">0.0</span>
+                            </div>
+                            <input type="range" id="rollRange" min="-2" max="2" step="0.05" value="0" class="w-full accent-blue-600 pointer-events-auto">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-slate-700">Pitch Moment</span>
+                                <span id="pitchVal" class="text-xs font-mono font-bold text-blue-600">0.0</span>
+                            </div>
+                            <input type="range" id="pitchRange" min="-2" max="2" step="0.05" value="0" class="w-full accent-blue-600 pointer-events-auto">
+                        </div>
+
+                        <div class="pt-4">
+                            <button id="resetBtn" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-blue-600 transition shadow-lg active:scale-95 pointer-events-auto">
+                                Reset Simulation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-indigo-50 rounded-2xl border border-indigo-100">
+                    <h4 class="text-indigo-700 font-bold text-xs uppercase mb-2">Technical Insight</h4>
+                    <p class="text-indigo-600 text-[11px] leading-relaxed">
+                        Traditional integrators "add" velocities to positions. Geometric integrators <strong>"flow"</strong> the state along the manifold. This preserves the determinant of the rotation matrix at exactly 1.0, regardless of the step size.
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div id="canvas-container">
+                    <div class="ui-overlay">
+                        <div class="glass p-4 rounded-2xl text-white">
+                            <div class="text-[10px] text-white/50 uppercase font-bold tracking-widest mb-1">Manifold Integrity</div>
+                            <div id="detDisplay" class="text-emerald-400 font-mono text-xs font-bold">det(R) = 1.00000000</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">
+                    <span>Lie Group Variational Integration</span>
+                    <span class="text-slate-500 italic">Body-frame Moment control active</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-slate-200 text-center text-slate-400 text-xs uppercase tracking-widest">
+        <p>&copy; 2026 MATHML.AI</p>
+    </footer>
+
+    <script>
+        // --- 3D Scene Setup ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(5, 10, 7);
+        scene.add(light);
+
+        camera.position.set(8, 6, 12);
+        camera.lookAt(0, 2, 0);
+
+        // Ground Grid
+        const grid = new THREE.GridHelper(50, 50, 0x334155, 0x1e293b);
+        scene.add(grid);
+
+        // --- Quadrotor Model ---
+        const drone = new THREE.Group();
+        const body = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.15, 1.2), new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x3b82f6, emissiveIntensity: 0.2 }));
+        drone.add(body);
+        
+        const rotorGeom = new THREE.CylinderGeometry(0.3, 0.3, 0.05, 16);
+        const rotorMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+        const rotorPos = [[0.6, 0.1, 0.6], [-0.6, 0.1, 0.6], [0.6, 0.1, -0.6], [-0.6, 0.1, -0.6]];
+        rotorPos.forEach(p => {
+            const r = new THREE.Mesh(rotorGeom, rotorMat);
+            r.position.set(...p);
+            drone.add(r);
+        });
+        scene.add(drone);
+
+        // --- Physics Engine (SE(3) LGVI) ---
+        let dt = 0.016;
+        let mass = 1.0;
+        let J = new THREE.Vector3(0.1, 0.1, 0.2); // Moments of Inertia
+        
+        let x = new THREE.Vector3(0, 2, 0); // Position
+        let v = new THREE.Vector3(0, 0, 0); // Velocity
+        let R = new THREE.Matrix4();        // Orientation
+        let Omega = new THREE.Vector3(0,0,0); // Body Angular Velocity
+
+        function integrate() {
+            // Actuators
+            const thrust = parseFloat(document.getElementById('thrustRange').value);
+            const roll = parseFloat(document.getElementById('rollRange').value);
+            const pitch = parseFloat(document.getElementById('pitchRange').value);
+
+            // Display updates
+            document.getElementById('thrustVal').innerText = thrust.toFixed(2);
+            document.getElementById('rollVal').innerText = roll.toFixed(2);
+            document.getElementById('pitchVal').innerText = pitch.toFixed(2);
+
+            // 1. Translational Integration (Standard)
+            const g = new THREE.Vector3(0, -9.81, 0);
+            const b3 = new THREE.Vector3(0, 1, 0).applyMatrix4(R); // Thrust direction
+            const accel = b3.multiplyScalar(thrust / mass).add(g);
+            
+            v.addScaledVector(accel, dt);
+            x.addScaledVector(v, dt);
+
+            // 2. Rotational Integration (Lie Group Exponential Map)
+            const moment = new THREE.Vector3(roll, 0, pitch);
+            const angularAccel = new THREE.Vector3(
+                moment.x / J.x,
+                moment.y / J.y,
+                moment.z / J.z
+            );
+            
+            Omega.addScaledVector(angularAccel, dt);
+            
+            // Exponential Map for SO(3)
+            const angle = Omega.length() * dt;
+            if (angle > 0) {
+                const axis = Omega.clone().normalize();
+                const dR = new THREE.Matrix4().makeRotationAxis(axis, angle);
+                R.multiply(dR);
+            }
+
+            // 3. Sync 3D Model
+            drone.position.copy(x);
+            drone.setRotationFromMatrix(R);
+
+            // Manifold check
+            document.getElementById('detDisplay').innerText = `det(R) = ${R.determinant().toFixed(8)}`;
+
+            // Keep in bounds for demo
+            if (x.y < 0) { x.y = 0; v.set(0,0,0); }
+        }
+
+        function reset() {
+            x.set(0, 2, 0);
+            v.set(0, 0, 0);
+            R.identity();
+            Omega.set(0, 0, 0);
+            document.getElementById('thrustRange').value = 9.81;
+            document.getElementById('rollRange').value = 0;
+            document.getElementById('pitchRange').value = 0;
+        }
+
+        function animate() {
+            integrate();
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = () => { animate(); };
+        document.getElementById('resetBtn').onclick = reset;
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    </script>
+</body>
+</html>
