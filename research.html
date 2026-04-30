@@ -29,7 +29,7 @@
         }
 
         #mobile-menu.open {
-            max-height: 500px;
+            max-height: 600px;
             opacity: 1;
             pointer-events: auto;
         }
@@ -80,12 +80,12 @@
     
     <header class="hero-bg py-24 px-6 border-b border-slate-200">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">Core Research</h2>
+            <h2 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">Foundations of CSME</h2>
             <h1 class="text-5xl md:text-6xl font-black tracking-tight mb-8">
                 Geometric Foundations of <span class="text-blue-600">Digital Twins</span>
             </h1>
             <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
-                Bridging the gap between physical reality and virtual simulation through a unified geometric framework for hierarchical, interconnected systems.
+                Developing rigorous mathematical foundations for hierarchical systems through structure-preserving numerical schemes.
             </p>
         </div>
     </header>
@@ -96,10 +96,10 @@
             <h2 class="text-3xl font-extrabold mb-6">The Physical-Digital Loop</h2>
             <div class="prose prose-slate lg:prose-lg text-slate-600 space-y-6">
                 <p>
-                    Digital twins are tightly coupled with their physical counterparts in a continuous feedback loop: the physical system informs the digital twin via sensors, while the digital twin informs physical control.
+                    Digital twins are tightly coupled with physical systems in a continuous feedback loop: data assimilation informs the virtual model, while high-fidelity simulation informs physical control.
                 </p>
                 <p>
-                    We develop hierarchical frameworks that couple continuous high-fidelity models with data-aware machine learning to maximize accuracy subject to computational constraints.
+                    Our research utilizes **computational geometric mechanics** to ensure that these virtual representations respect fundamental physical laws, such as energy and momentum conservation.
                 </p>
             </div>
         </section>
@@ -109,53 +109,61 @@
                 <div>
                     <h3 class="text-xl font-bold mb-3 text-blue-600">Variational Integrators</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                        Structure-preserving numerical methods that preserve momentum and symplectic structure, yielding superior qualitative accuracy over long timescales.
+                        Discrete analogues of variational mechanics that exhibit excellent energy behavior over long timescales.
                     </p>
                 </div>
                 <a href="demo.html" class="text-blue-600 font-bold text-sm flex items-center gap-2 group">
-                    Launch Stability Demo 
+                    Symplectic Stability Demo 
                     <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </a>
             </div>
 
             <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover">
                 <div>
-                    <h3 class="text-xl font-bold mb-3 text-blue-600">Celestial & Chaos Benchmarks</h3>
+                    <h3 class="text-xl font-bold mb-3 text-blue-600">Manifold Autonomy</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                        Testing the limits of geometric integration in chaotic multi-body systems where standard energy drift causes unphysical orbital disintegration.
+                        Robust discretizations for robots and drones operating on configuration manifolds like Lie groups.
                     </p>
                 </div>
-                <a href="three-body.html" class="text-blue-600 font-bold text-sm flex items-center gap-2 group">
-                    Launch 3-Body Demo
+                <a href="rigid-body.html" class="text-blue-600 font-bold text-sm flex items-center gap-2 group">
+                    Rigid Body Rotations Demo 
                     <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </a>
             </div>
 
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm card-hover">
-                <h3 class="text-xl font-bold mb-3 text-blue-600">Dirac Mechanics</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    A geometric description of interconnected systems. Dirac structures encode the constraints essential for modeling multibody dynamics and circuits.
-                </p>
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 text-blue-600">Chaos Benchmarks</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Simulating the chaotic 3-body problem while maintaining Hamiltonian consistency and momentum preservation.
+                    </p>
+                </div>
+                <a href="three-body.html" class="text-blue-600 font-bold text-sm flex items-center gap-2 group">
+                    3-Body Problem Demo 
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
             </div>
 
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm card-hover">
-                <h3 class="text-xl font-bold mb-3 text-blue-600">Symplectic Optimization</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    Discretizing the flow of Bregman Hamiltonians to obtain time-adaptive optimization algorithms that outperform standard accelerated gradient methods.
-                </p>
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 text-blue-600">Dirac Mechanics</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Modeling hierarchical, interconnected systems using Dirac geometry to encode holonomic and nonholonomic constraints.
+                    </p>
+                </div>
             </div>
         </section>
 
         <section class="bg-slate-900 rounded-[2rem] p-10 md:p-16 text-white shadow-2xl">
-            <h2 class="text-3xl font-bold mb-6 text-blue-400">Physics-Informed Learning</h2>
+            <h2 class="text-3xl font-bold mb-6 text-blue-400">Symplectic Optimization</h2>
             <div class="space-y-6 text-slate-300">
                 <p class="text-lg">
-                    Preserving presymplectic structures is essential for efficient training of physics-informed neural networks through adjoint sensitivity analysis.
+                    By discretizing the flow of Bregman Hamiltonians, we achieve accelerated convergence rates of $\mathcal{O}(1/t^p)$ for training complex AI models.
                 </p>
                 <div class="bg-slate-800 rounded-xl p-6 font-mono text-sm border border-slate-700">
-                    <span class="text-blue-400"># Symplectic Equivalence Theorem</span><br>
-                    Adjoint(Discretize(System)) == Discretize(Adjoint(System))<br>
-                    <span class="text-slate-500">// Only valid when the numerical method is symplectic.</span>
+                    <span class="text-blue-400"># Symplectic Optimization Rate</span><br>
+                    Convergence(Symplectic) >> Convergence(Standard Gradient)<br>
+                    <span class="text-slate-500">// Efficient adjoint sensitivity for Physics-Informed ML.</span>
                 </div>
             </div>
         </section>
@@ -165,6 +173,24 @@
     <footer class="py-12 border-t border-slate-200 text-center text-slate-400 text-xs uppercase tracking-widest">
         <p>&copy; 2026 MATHML.AI</p>
     </footer>
+    
+    <!-- Default Statcounter code for mathml.ai
+https://mathml.ai -->
+<script type="text/javascript">
+var sc_project=13224859; 
+var sc_invisible=1; 
+var sc_security="1724f293"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13224859/0/1724f293/1/"
+alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
     
     <script>
         const menuBtn = document.getElementById('menu-btn');
