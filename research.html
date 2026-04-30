@@ -20,20 +20,20 @@
         .card-hover { transition: all 0.3s ease; }
         .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
         
-                /* Mobile menu transition */
-#mobile-menu {
-    transition: all 0.3s ease-in-out;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none; /* Prevents clicking links while hidden */
-}
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
 
-#mobile-menu.open {
-    max-height: 500px; /* Ensure this is taller than your total menu height */
-    opacity: 1;
-    pointer-events: auto;
-}    </style>
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
 </head>
 <body class="bg-white text-slate-900 selection:bg-blue-100">
 
@@ -42,24 +42,23 @@
             <div class="flex items-center gap-2">
                 <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">M</div>
                 <a href="index.html" class="flex items-center gap-2">
-            <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
-        </a>
+                    <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
+                </a>
             </div>
             <div class="hidden md:flex gap-8 font-semibold text-slate-600">
-            <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
-            <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
-            <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
-            <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
+                <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
+                <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+                <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
+                <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
             </div>
             
-             <div class="hidden md:block">
-            <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
-                Contact Us
-            </a>
-        </div>
+            <div class="hidden md:block">
+                <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
+                    Contact Us
+                </a>
+            </div>
         
-        
-        <button id="menu-btn" class="md:hidden p-2 text-slate-600 focus:outline-none">
+            <button id="menu-btn" class="md:hidden p-2 text-slate-600 focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -67,16 +66,16 @@
         </div>
 
         <div id="mobile-menu" class="md:hidden bg-white border-t border-slate-50 shadow-inner">
-    <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
-        <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
-        <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
-        <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
-        <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
-        <a href="contact.html" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
-            Contact Us
-        </a>
-    </div>
-</div>
+            <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
+                <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
+                <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+                <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
+                <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
+                <a href="contact.html" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
+                    Contact Us
+                </a>
+            </div>
+        </div>
     </nav>
     
     <header class="hero-bg py-24 px-6 border-b border-slate-200">
@@ -97,46 +96,61 @@
             <h2 class="text-3xl font-extrabold mb-6">The Physical-Digital Loop</h2>
             <div class="prose prose-slate lg:prose-lg text-slate-600 space-y-6">
                 <p>
-                    Digital twins are more than high-fidelity virtual representations; they are tightly coupled with their physical counterparts in a continuous feedback loop. The physical system informs the digital twin via sensors and data assimilation, while the digital twin informs the physical counterpart via decision and control.
+                    Digital twins are tightly coupled with their physical counterparts in a continuous feedback loop: the physical system informs the digital twin via sensors, while the digital twin informs physical control.
                 </p>
                 <p>
-                    Our research develops a unified geometric framework for constructing <strong>hierarchical digital twins</strong>. This approach couples continuous high-fidelity models with reduced-order surrogates and data-aware machine learning, ensuring consistency across all levels of parameterization.
+                    We develop hierarchical frameworks that couple continuous high-fidelity models with data-aware machine learning to maximize accuracy subject to computational constraints.
                 </p>
             </div>
         </section>
 
         <section class="grid md:grid-cols-2 gap-8">
-            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-                <h3 class="text-xl font-bold mb-3 text-blue-600">Variational Integrators</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    Structure-preserving numerical methods that preserve momentum and symplectic structure. These methods yield superior qualitative accuracy and energy behavior over long timescales.
-                </p>
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 text-blue-600">Variational Integrators</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Structure-preserving numerical methods that preserve momentum and symplectic structure, yielding superior qualitative accuracy over long timescales.
+                    </p>
+                </div>
+                <a href="demo.html" class="text-blue-600 font-bold text-sm flex items-center gap-2 group">
+                    Launch Stability Demo 
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
             </div>
-            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 text-blue-600">Celestial & Chaos Benchmarks</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Testing the limits of geometric integration in chaotic multi-body systems where standard energy drift causes unphysical orbital disintegration.
+                    </p>
+                </div>
+                <a href="three-body.html" class="text-blue-600 font-bold text-sm flex items-center gap-2 group">
+                    Launch 3-Body Demo
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm card-hover">
                 <h3 class="text-xl font-bold mb-3 text-blue-600">Dirac Mechanics</h3>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    A geometric description of interconnected, multi-physics systems. Dirac structures encode holonomic and nonholonomic constraints essential for modeling multibody dynamics and circuits.
+                    A geometric description of interconnected systems. Dirac structures encode the constraints essential for modeling multibody dynamics and circuits.
                 </p>
             </div>
-            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-                <h3 class="text-xl font-bold mb-3 text-blue-600">Manifold Autonomy</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    Configuration spaces for robots and autonomous vehicles naturally reside on Lie groups. Our work ensures robust, accurate, and geometric structure-preserving discretizations on these manifolds.
-                </p>
-            </div>
-            <div class="feature-card bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm card-hover">
                 <h3 class="text-xl font-bold mb-3 text-blue-600">Symplectic Optimization</h3>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    We systematically discretize the flow of Bregman Hamiltonians to obtain time-adaptive optimization algorithms that outperform standard accelerated gradient methods.
+                    Discretizing the flow of Bregman Hamiltonians to obtain time-adaptive optimization algorithms that outperform standard accelerated gradient methods.
                 </p>
             </div>
         </section>
 
-        <section class="bg-slate-900 rounded-[2rem] p-10 md:p-16 text-white">
+        <section class="bg-slate-900 rounded-[2rem] p-10 md:p-16 text-white shadow-2xl">
             <h2 class="text-3xl font-bold mb-6 text-blue-400">Physics-Informed Learning</h2>
             <div class="space-y-6 text-slate-300">
                 <p class="text-lg">
-                    Training deep neural networks can be viewed through the lens of adjoint sensitivity analysis. We demonstrate that the preservation of presymplectic structures is essential for efficient training of physics-informed neural networks and interconnected systems.
+                    Preserving presymplectic structures is essential for efficient training of physics-informed neural networks through adjoint sensitivity analysis.
                 </p>
                 <div class="bg-slate-800 rounded-xl p-6 font-mono text-sm border border-slate-700">
                     <span class="text-blue-400"># Symplectic Equivalence Theorem</span><br>
@@ -152,49 +166,20 @@
         <p>&copy; 2026 MATHML.AI</p>
     </footer>
     
-<!-- Default Statcounter code for mathml.ai
-https://mathml.ai -->
-<script type="text/javascript">
-var sc_project=13224859; 
-var sc_invisible=1; 
-var sc_security="1724f293"; 
-</script>
-<script type="text/javascript"
-src="https://www.statcounter.com/counter/counter.js"
-async></script>
-<noscript><div class="statcounter"><a title="Web Analytics"
-href="https://statcounter.com/" target="_blank"><img
-class="statcounter"
-src="https://c.statcounter.com/13224859/0/1724f293/1/"
-alt="Web Analytics"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
 
-<script>
-    const menuBtn = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-
-    menuBtn.addEventListener('click', () => {
-        // Toggle the 'open' class which controls the height and padding
-        mobileMenu.classList.toggle('open');
-        
-        // Change the SVG path to an 'X' icon when open, and back to hamburger when closed
-        if (mobileMenu.classList.contains('open')) {
-            menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-        } else {
-            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-        }
-    });
-
-    // Optional: Close the menu automatically when a link is clicked
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            if (mobileMenu.classList.contains('open')) {
+                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+            } else {
+                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+            }
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>

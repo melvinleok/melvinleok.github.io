@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Body Problem | Geometric Demo | mathml.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .main-canvas { 
+            border-radius: 2rem; 
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
+            width: 100%; 
+            height: 500px; 
+            display: block;
+        }
+        .energy-canvas {
+            border-radius: 1rem;
+            background: #0f172a;
+            width: 100%;
+            height: 120px;
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 selection:bg-blue-100">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-8 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-100">M</div>
+                <span class="font-bold tracking-tight text-slate-600">mathml<span class="text-blue-600">.ai</span></span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="research.html" class="text-sm font-semibold text-slate-500 hover:text-blue-600">Research</a>
+                <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest border border-blue-200">Symplectic Solver Active</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto py-12 px-6">
+        <header class="mb-12">
+            <h1 class="text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Chaos & Structure: The 3-Body Problem</h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-4xl">
+                Simulating three interacting masses requires <strong>geometric structure-preserving discretizations</strong>. Standard solvers allow numerical energy drift, causing orbits to disintegrate. Our <strong>variational integrator</strong> preserves momentum and energy behavior over long timescales.
+            </p>
+        </header>
+
+        <div class="grid lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 block">Simulation Config</label>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-slate-700">Time Step (dt)</span>
+                                <span id="dtVal" class="text-xs font-mono font-bold text-blue-600">0.015</span>
+                            </div>
+                            <input type="range" id="dtRange" min="0.005" max="0.04" step="0.001" value="0.015" class="w-full accent-blue-600">
+                        </div>
+                    </div>
+
+                    <button id="resetBtn" class="w-full mt-8 bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-blue-600 transition shadow-lg active:scale-95">
+                        Reset Orbits
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Hamiltonian Drift</h3>
+                    <canvas id="energyCanvas" class="energy-canvas"></canvas>
+                    <div id="energyText" class="mt-4 text-[10px] font-mono text-emerald-600 font-bold text-center">ΔE: 0.000000</div>
+                </div>
+
+                <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                    <p class="text-blue-600 text-[11px] leading-relaxed">
+                        <strong>Insight:</strong> The Hamiltonian energy is a constant of motion. Symplectic integrators preserve this value on average, preventing the orbits from flying apart.
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 space-y-6">
+                <canvas id="threeBodyCanvas" class="main-canvas"></canvas>
+                <div class="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">
+                    <span>Discrete Hamilton's Principle Integration</span>
+                    <span id="energyIndicator" class="text-emerald-500">Stability: High</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-slate-200 text-center text-slate-400 text-xs uppercase tracking-widest">
+        <p>&copy; 2026 MathML.ai | Computational Science & Engineering</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('threeBodyCanvas');
+        const ctx = canvas.getContext('2d');
+        const energyCanvas = document.getElementById('energyCanvas');
+        const ctxE = energyCanvas.getContext('2d');
+        const dtRange = document.getElementById('dtRange');
+        
+        let dt = 0.015;
+        let G = 1.0;
+        let initialEnergy = 0;
+        let energyHistory = [];
+
+        class Body {
+            constructor(x, y, vx, vy, mass, color) {
+                this.pos = { x, y };
+                this.vel = { x: vx, y: vy };
+                this.mass = mass;
+                this.color = color;
+                this.path = [];
+            }
+        }
+
+        let bodies = [];
+
+        function calculateHamiltonian() {
+            let ke = 0; // Kinetic
+            let pe = 0; // Potential
+            for (let i = 0; i < bodies.length; i++) {
+                let b = bodies[i];
+                ke += 0.5 * b.mass * (b.vel.x**2 + b.vel.y**2);
+                for (let j = i + 1; j < bodies.length; j++) {
+                    let other = bodies[j];
+                    let dx = other.pos.x - b.pos.x;
+                    let dy = other.pos.y - b.pos.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy + 0.1);
+                    pe -= (G * b.mass * other.mass) / dist;
+                }
+            }
+            return ke + pe;
+        }
+
+        function reset() {
+            dt = parseFloat(dtRange.value);
+            document.getElementById('dtVal').innerText = dt.toFixed(3);
+            energyHistory = [];
+
+            bodies = [
+                new Body(-1, 0, 0, 0.8, 1, '#60a5fa'),
+                new Body(1, 0, 0, -0.8, 1, '#f87171'),
+                new Body(0, 0.5, 0.5, 0, 1, '#34d399')
+            ];
+            initialEnergy = calculateHamiltonian();
+        }
+
+        function setupCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            ctx.scale(dpr, dpr);
+
+            energyCanvas.width = energyCanvas.clientWidth * dpr;
+            energyCanvas.height = energyCanvas.clientHeight * dpr;
+            ctxE.scale(dpr, dpr);
+        }
+
+        function getAcc(body, allBodies) {
+            let ax = 0, ay = 0;
+            allBodies.forEach(other => {
+                if (body === other) return;
+                const dx = other.pos.x - body.pos.x;
+                const dy = other.pos.y - body.pos.y;
+                const distSq = dx*dx + dy*dy + 0.1;
+                const force = (G * other.mass) / (distSq * Math.sqrt(distSq));
+                ax += force * dx;
+                ay += force * dy;
+            });
+            return { x: ax, y: ay };
+        }
+
+        function solve() {
+            // Störmer-Verlet
+            const accels = bodies.map(b => getAcc(b, bodies));
+            bodies.forEach((b, i) => {
+                b.vel.x += accels[i].x * dt * 0.5;
+                b.vel.y += accels[i].y * dt * 0.5;
+            });
+
+            bodies.forEach(b => {
+                b.pos.x += b.vel.x * dt;
+                b.pos.y += b.vel.y * dt;
+                b.path.push({...b.pos});
+                if (b.path.length > 150) b.path.shift();
+            });
+
+            const newAccels = bodies.map(b => getAcc(b, bodies));
+            bodies.forEach((b, i) => {
+                b.vel.x += newAccels[i].x * dt * 0.5;
+                b.vel.y += newAccels[i].y * dt * 0.5;
+            });
+
+            const currentE = calculateHamiltonian();
+            energyHistory.push(currentE - initialEnergy);
+            if (energyHistory.length > 200) energyHistory.shift();
+            document.getElementById('energyText').innerText = `ΔE: ${(currentE - initialEnergy).toFixed(6)}`;
+        }
+
+        function drawEnergy() {
+            const w = energyCanvas.clientWidth;
+            const h = energyCanvas.clientHeight;
+            ctxE.clearRect(0,0,w,h);
+            
+            ctxE.strokeStyle = '#10b981';
+            ctxE.lineWidth = 2;
+            ctxE.beginPath();
+            const stepX = w / 200;
+            const midY = h/2;
+            
+            energyHistory.forEach((val, i) => {
+                let x = i * stepX;
+                let y = midY - (val * 1000); // Scale drift for visibility
+                if(i === 0) ctxE.moveTo(x, y);
+                else ctxE.lineTo(x, y);
+            });
+            ctxE.stroke();
+        }
+
+        function draw() {
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            const cx = w/2, cy = h/2;
+            const scale = 100;
+
+            ctx.clearRect(0, 0, w, h);
+
+            bodies.forEach(b => {
+                if (b.path.length > 2) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = b.color;
+                    ctx.lineWidth = 1.5;
+                    ctx.globalAlpha = 0.3;
+                    ctx.moveTo(cx + b.path[0].x * scale, cy + b.path[0].y * scale);
+                    b.path.forEach(p => ctx.lineTo(cx + p.x * scale, cy + p.y * scale));
+                    ctx.stroke();
+                    ctx.globalAlpha = 1.0;
+                }
+                ctx.fillStyle = b.color;
+                ctx.beginPath();
+                ctx.arc(cx + b.pos.x * scale, cy + b.pos.y * scale, 6, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            solve();
+            drawEnergy();
+            requestAnimationFrame(draw);
+        }
+
+        window.onload = () => {
+            setupCanvas();
+            reset();
+            draw();
+        };
+
+        dtRange.oninput = reset;
+        document.getElementById('resetBtn').onclick = reset;
+        window.onresize = setupCanvas;
+    </script>
+</body>
+</html>
