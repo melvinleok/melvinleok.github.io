@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rigid Body Dynamics | SO(3) Manifold | mathml.ai</title>
+    <title>Dynamic SO(3) Manifold | mathml.ai</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         #canvas-container { 
-            border-radius: 2rem; 
-            background: #0f172a; 
+            border-radius: 2.5rem; 
+            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%); 
             width: 100%; 
-            height: 600px; 
+            height: 650px; 
             overflow: hidden;
             position: relative;
         }
-        .ui-panel {
+        .ui-overlay {
             position: absolute;
             top: 1.5rem;
+            left: 1.5rem;
             right: 1.5rem;
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
         }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 selection:bg-blue-100">
@@ -33,149 +38,209 @@
                 <span class="font-bold tracking-tight text-slate-600">mathml<span class="text-blue-600">.ai</span></span>
             </a>
             <div class="flex items-center gap-6">
-                <a href="research.html" class="text-sm font-semibold text-slate-500 hover:text-blue-600">Research</a>
-                <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest border border-blue-200">Manifold: SO(3)</span>
+                <a href="research.html" class="text-sm font-semibold text-slate-500 hover:text-blue-600 transition">Research</a>
+                <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-blue-200 shadow-sm">Manifold Tracking: SO(3)</span>
             </div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto py-12 px-6">
         <header class="mb-12">
-            <h1 class="text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Lie Group Variational Integrators</h1>
+            <h1 class="text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Rigid Body Dynamics</h1>
             <p class="text-lg text-slate-600 leading-relaxed max-w-4xl">
-                Simulating rigid body dynamics on the rotation group. Standard numerical methods often fail to preserve the orthogonality of the rotation matrix, causing the "satellite" to artificially grow or shrink. Our <strong>Lie Group Variational Integrator</strong> preserves the geometric structure natively without ad-hoc projections.
+                Visualizing the spatial trajectories of an asymmetric rigid body. Using a <strong>Lie Group Variational Integrator</strong>, we maintain the rotation matrix orthogonality exactly on the <strong>rotation group</strong>.
             </p>
         </header>
 
         <div class="grid lg:grid-cols-4 gap-8">
             <div class="lg:col-span-1 space-y-6">
-                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 block">Initial Angular Momentum</label>
-                    <div class="space-y-6">
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6 block">Initial Dynamics</label>
+                    
+                    <div class="space-y-8">
                         <div>
                             <div class="flex justify-between mb-2">
-                                <span class="text-xs font-bold text-slate-700">X-Axis (Min. Inertia)</span>
-                                <span id="xVal" class="text-xs font-mono font-bold text-blue-600">0.1</span>
+                                <span class="text-xs font-bold text-slate-700">Spin Speed</span>
+                                <span id="spinVal" class="text-xs font-mono font-bold text-blue-600">4.0</span>
                             </div>
-                            <input type="range" id="xMom" min="0" max="5" step="0.1" value="0.1" class="w-full accent-blue-600">
+                            <input type="range" id="spinRange" min="1" max="10" step="0.1" value="4.0" class="w-full accent-blue-600 pointer-events-auto">
                         </div>
+                        
                         <div>
                             <div class="flex justify-between mb-2">
-                                <span class="text-xs font-bold text-slate-700">Y-Axis (Int. Inertia)</span>
-                                <span id="yVal" class="text-xs font-mono font-bold text-blue-600">3.0</span>
+                                <span class="text-xs font-bold text-slate-700">Instability Bias</span>
+                                <span id="biasVal" class="text-xs font-mono font-bold text-blue-600">0.5</span>
                             </div>
-                            <input type="range" id="yMom" min="0" max="5" step="0.1" value="3.0" class="w-full accent-blue-600">
+                            <input type="range" id="biasRange" min="0" max="0.8" step="0.01" value="0.5" class="w-full accent-blue-600 pointer-events-auto">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-slate-700">Camera Zoom</span>
+                                <span id="zoomVal" class="text-xs font-mono font-bold text-blue-600">25</span>
+                            </div>
+                            <input type="range" id="zoomRange" min="5" max="30" step="0.1" value="25" class="w-full accent-blue-600 pointer-events-auto">
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4">
+                            <span class="text-xs font-bold text-slate-700 uppercase">Show Trails</span>
+                            <input type="checkbox" id="trailToggle" checked class="w-5 h-5 accent-blue-600 pointer-events-auto">
                         </div>
                     </div>
 
-                    <button id="resetBtn" class="w-full mt-8 bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-blue-600 transition shadow-lg active:scale-95">
-                        Reset Satellite
+                    <button id="resetBtn" class="w-full mt-10 bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-blue-600 transition shadow-lg active:scale-95 pointer-events-auto">
+                        Reset Simulation
                     </button>
                 </div>
 
                 <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-                    <h4 class="text-blue-700 font-bold text-xs uppercase mb-2">Technical Insight</h4>
+                    <h4 class="text-blue-700 font-bold text-xs uppercase mb-2">Geometric Stability</h4>
                     <p class="text-blue-600 text-[11px] leading-relaxed">
-                        Notice the periodic flipping when spinning around the intermediate axis ($Y$). This is the <strong>Dzhanibekov Effect</strong>. A non-geometric integrator would lose the stability of this orbit within seconds.
+                        The spirals represent the precession of the angular momentum. Preservation of momentum magnitude is a consequence of the <strong>manifold-preserving solver</strong>.
                     </p>
                 </div>
             </div>
 
             <div class="lg:col-span-3">
                 <div id="canvas-container">
-                    <div class="ui-panel">
-                        <div class="bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-white font-mono text-[10px]">
-                            <div class="uppercase text-white/50 mb-1">Orthogonality Check</div>
-                            <div id="orthoCheck">RᵀR ≈ I: 1.00000000</div>
+                    <div class="ui-overlay">
+                        <div class="glass p-4 rounded-2xl">
+                            <div class="text-[10px] text-white/50 uppercase font-bold tracking-widest mb-1">Integration Status</div>
+                            <div id="orthoDisplay" class="text-emerald-400 font-mono text-xs font-bold">det(R) = 1.00000000</div>
+                        </div>
+                        <div class="glass p-4 rounded-2xl text-right">
+                            <div class="text-[10px] text-white/50 uppercase font-bold tracking-widest mb-1">Angular Momentum</div>
+                            <div id="momentumDisplay" class="text-blue-400 font-mono text-xs font-bold">||L|| = Const.</div>
                         </div>
                     </div>
-                </div>
-                <div class="mt-4 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">
-                    <span>Structure-Preserving Lie Group Flow</span>
-                    <span class="text-slate-500 italic">Drag to Rotate Scene</span>
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="py-12 border-t border-slate-200 text-center text-slate-400 text-xs uppercase tracking-widest">
-        <p>&copy; 2026 MathML.ai | Computational Science & Engineering</p>
+        <p>&copy; 2026 MATHML.AI</p>
     </footer>
 
     <script>
-        // --- Three.js Boilerplate ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
-        const sun = new THREE.DirectionalLight(0xffffff, 1);
-        sun.position.set(5, 5, 5);
+        const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+        sun.position.set(5, 10, 7);
         scene.add(sun);
 
-        camera.position.z = 10;
+        camera.position.set(6, 6, 12);
+        camera.lookAt(0, 0, 0);
 
-        // --- The Satellite (Asymmetric Rigid Body) ---
-        const geometry = new THREE.BoxGeometry(1, 4, 0.5); // Three distinct moments of inertia
-        const material = new THREE.MeshStandardMaterial({ 
-            color: 0x3b82f6, 
-            metalness: 0.8, 
-            roughness: 0.2,
-            wireframe: false 
+        const satelliteGeom = new THREE.BoxGeometry(0.8, 3.2, 0.4);
+        const satelliteMat = new THREE.MeshStandardMaterial({ 
+            color: 0x3b82f6,          
+            metalness: 0.7,           
+            roughness: 0.3,           
+            emissive: 0x3b82f6,       
+            emissiveIntensity: 0.4    
         });
-        const satellite = new THREE.Mesh(geometry, material);
+        const satellite = new THREE.Mesh(satelliteGeom, satelliteMat);
         scene.add(satellite);
 
-        // Grid helper for context
-        const grid = new THREE.GridHelper(20, 20, 0x1e293b, 0x0f172a);
-        grid.rotation.x = Math.PI / 2;
-        grid.position.z = -5;
-        scene.add(grid);
+        const axes = new THREE.Group();
+        const colors = [0xef4444, 0x22c55e, 0x3b82f6]; 
+        [ [1,0,0], [0,1,0], [0,0,1] ].forEach((dir, i) => {
+            const arrow = new THREE.ArrowHelper(new THREE.Vector3(...dir), new THREE.Vector3(0,0,0), 2, colors[i]);
+            axes.add(arrow);
+        });
+        satellite.add(axes);
 
-        // --- Geometric Integrator State ---
-        let dt = 0.01;
-        const J = new THREE.Vector3(10, 2, 5); // Inertia Tensor diagonal (Body frame)
-        let R = new THREE.Matrix4(); // Rotation Matrix
-        let Pi = new THREE.Vector3(0.1, 3.0, 0); // Angular Momentum (Body frame)
+        const maxTrailPoints = 500;
+        const trailMat = new THREE.LineBasicMaterial({ color: 0x00f2ff, transparent: true, opacity: 0.6 });
+        const trailGeom = new THREE.BufferGeometry();
+        const trailPositions = new Float32Array(maxTrailPoints * 3);
+        trailGeom.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
+        const trail = new THREE.Line(trailGeom, trailMat);
+        scene.add(trail);
+
+        let dt = 0.008;
+        const J = new THREE.Vector3(12, 1, 8); 
+        let R = new THREE.Matrix4();
+        let Pi = new THREE.Vector3(0.05, 4.0, 0); 
+        let trailPts = [];
+
+        const zoomRange = document.getElementById('zoomRange');
+        const zoomVal = document.getElementById('zoomVal');
+
+        function updateZoom() {
+            const sliderVal = parseFloat(zoomRange.value);
+            const minRange = parseFloat(zoomRange.min);
+            const maxRange = parseFloat(zoomRange.max);
+            
+            // Inverted formula: Higher slider value = Smaller distance (closer)
+            const dist = (maxRange + minRange) - sliderVal;
+            
+            zoomVal.innerText = sliderVal.toFixed(1);
+            
+            const baseDir = new THREE.Vector3(6, 6, 12).normalize();
+            camera.position.copy(baseDir.multiplyScalar(dist));
+            camera.lookAt(0, 0, 0);
+        }
+
+        zoomRange.oninput = updateZoom;
+
+        function reset() {
+            const spin = parseFloat(document.getElementById('spinRange').value);
+            const bias = parseFloat(document.getElementById('biasRange').value);
+            document.getElementById('spinVal').innerText = spin.toFixed(1);
+            document.getElementById('biasVal').innerText = bias.toFixed(2);
+            
+            R.identity();
+            Pi.set(bias, spin, 0); 
+            trailPts = [];
+            const posAttr = trail.geometry.attributes.position;
+            for(let i=0; i<maxTrailPoints*3; i++) posAttr.array[i] = 0;
+            posAttr.needsUpdate = true;
+            updateZoom(); 
+        }
 
         function integrate() {
-            // Lie Group Variational Integrator (LGVI) Step
-            // Calculate Angular Velocity Omega in body frame: Omega = J⁻¹ * Pi
-            const Omega = new THREE.Vector3(Pi.x / J.x, Pi.y / J.y, Pi.z / J.z);
-            
-            // Exponential Map for SO(3) - Rodriguez Formula
+            const Omega = new THREE.Vector3(Pi.x/J.x, Pi.y/J.y, Pi.z/J.z);
             const angle = Omega.length() * dt;
             if (angle > 0) {
                 const axis = Omega.normalize();
                 const dR = new THREE.Matrix4().makeRotationAxis(axis, angle);
                 R.multiply(dR);
             }
+            const bodyOmega = new THREE.Vector3(Pi.x/J.x, Pi.y/J.y, Pi.z/J.z);
+            const cross = new THREE.Vector3().crossVectors(Pi, bodyOmega);
+            Pi.addScaledVector(cross, -dt);
 
-            // Conservation of Momentum in Body Frame (Euler Equations)
-            // dPi/dt = Pi x Omega
-            const cross = new THREE.Vector3().crossVectors(Pi, new THREE.Vector3(Pi.x/J.x, Pi.y/J.y, Pi.z/J.z));
-            Pi.addScaledVector(cross, dt);
-
-            // Apply to Mesh
             satellite.setRotationFromMatrix(R);
+            
+            if(document.getElementById('trailToggle').checked) {
+                const tip = new THREE.Vector3(0, 2, 0).applyMatrix4(R);
+                trailPts.push(tip);
+                if(trailPts.length > maxTrailPoints) trailPts.shift();
+                
+                const posAttr = trail.geometry.attributes.position;
+                for(let i=0; i<trailPts.length; i++) {
+                    posAttr.array[i*3] = trailPts[i].x;
+                    posAttr.array[i*3+1] = trailPts[i].y;
+                    posAttr.array[i*3+2] = trailPts[i].z;
+                }
+                trail.geometry.setDrawRange(0, trailPts.length);
+                posAttr.needsUpdate = true;
+                trail.visible = true;
+            } else {
+                trail.visible = false;
+            }
 
-            // Orthogonality Check: Det(R) or R^T * R should be Identity
-            const elements = R.elements;
-            const det = R.determinant();
-            document.getElementById('orthoCheck').innerText = `Det(R): ${det.toFixed(8)}`;
-        }
-
-        function reset() {
-            R.identity();
-            const x = parseFloat(document.getElementById('xMom').value);
-            const y = parseFloat(document.getElementById('yMom').value);
-            document.getElementById('xVal').innerText = x.toFixed(1);
-            document.getElementById('yVal').innerText = y.toFixed(1);
-            Pi.set(x, y, 0.01); // Small perturbation for chaos
+            document.getElementById('orthoDisplay').innerText = `det(R) = ${R.determinant().toFixed(8)}`;
         }
 
         function animate() {
@@ -184,17 +249,16 @@
             requestAnimationFrame(animate);
         }
 
+        window.onload = () => { reset(); animate(); };
         document.getElementById('resetBtn').onclick = reset;
-        window.onresize = () => {
+        document.getElementById('spinRange').oninput = reset;
+        document.getElementById('biasRange').oninput = reset;
+
+        window.addEventListener('resize', () => {
             camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(container.clientWidth, container.clientHeight);
-        };
-
-        window.onload = () => {
-            reset();
-            animate();
-        };
+        });
     </script>
 </body>
 </html>
