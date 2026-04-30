@@ -20,20 +20,38 @@
         .card-hover { transition: all 0.3s ease; }
         .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
         
-                /* Mobile menu transition */
-#mobile-menu {
-    transition: all 0.3s ease-in-out;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none; /* Prevents clicking links while hidden */
-}
+        /* Mobile menu transition */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
 
-#mobile-menu.open {
-    max-height: 500px; /* Ensure this is taller than your total menu height */
-    opacity: 1;
-    pointer-events: auto;
-}    </style>
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* FIX FOR RESPONSIVE VIDEO SIZING */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            background: #f1f5f9;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body class="bg-white text-slate-900 selection:bg-blue-100">
 
@@ -41,25 +59,24 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">M</div>
-<a href="index.html" class="flex items-center gap-2">
-            <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
-        </a>
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
+                </a>
             </div>
             <div class="hidden md:flex gap-8 font-semibold text-slate-600">
-            <a href="research.html" class="hover:text-blue-600 transition">Research</a>
-            <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
-            <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
-            <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
+                <a href="research.html" class="hover:text-blue-600 transition">Research</a>
+                <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
+                <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+                <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
             </div>
             
              <div class="hidden md:block">
-            <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
-                Contact Us
-            </a>
-        </div>
+                <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
+                    Contact Us
+                </a>
+            </div>
         
-        
-        <button id="menu-btn" class="md:hidden p-2 text-slate-600 focus:outline-none">
+            <button id="menu-btn" class="md:hidden p-2 text-slate-600 focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -67,70 +84,106 @@
         </div>
 
         <div id="mobile-menu" class="md:hidden bg-white border-t border-slate-50 shadow-inner">
-    <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
-        <a href="research.html" class="hover:text-blue-600 transition">Research</a>
-        <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
-        <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
-        <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
-        <a href="contact.html" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
-            Contact Us
-        </a>
-    </div>
-</div>
+            <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
+                <a href="research.html" class="hover:text-blue-600 transition">Research</a>
+                <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
+                <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+                <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
+                <a href="contact.html" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
+                    Contact Us
+                </a>
+            </div>
+        </div>
     </nav>
 
     <header class="py-16 px-6 text-center bg-white border-b border-slate-200">
-        <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4">Simulations & Lectures</h1>
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4 text-slate-900">Simulations & Lectures</h1>
         <p class="text-lg text-slate-600 max-w-2xl mx-auto">
             Exploring the intersection of geometric mechanics, variational integrators, and next-generation autonomy.
         </p>
     </header>
 
     <main class="max-w-7xl mx-auto py-20 px-6">
-        <div class="grid md:grid-cols-2 gap-12">
+        <div class="grid md:grid-cols-2 gap-16">
             
-                                    <div class="space-y-4">
-                <div class="video-container shadow-xl">
-                    <iframe src="https://www.youtube.com/embed/ZUM5qe0tzRg?si=kG2_7T-ianzOGBji" title="Geometric Tracking of Quadrotors" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="space-y-4">
+                <div class="video-container shadow-2xl">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/ZUM5qe0tzRg" 
+                        title="Geometric Tracking of Quadrotors" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
                 <h3 class="text-xl font-bold">Geometric Tracking of Quadrotors</h3>
                 <p class="text-slate-600 text-sm">
-                    A simulation of geometric tracking control of a quadrotor UAV on the special Euclidean group.</p>
+                    A simulation of geometric tracking control of a quadrotor UAV on the special Euclidean group.
+                </p>
             </div>
             
-            
-                                     <div class="space-y-4">
-                <div class="video-container shadow-xl">
-                    <iframe src="https://www.youtube.com/embed/73KQ2HhnNjE?si=mTFEZDnfwlSS0qN6" title="Global Uncertainty Propagation on the Rotation Group" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="space-y-4">
+                <div class="video-container shadow-2xl">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/73KQ2HhnNjE" 
+                        title="Global Uncertainty Propagation on the Rotation Group" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
-                <h3 class="text-xl font-bold">Global Uncertainty Propagation on the Rotation Group</h3>
+                <h3 class="text-xl font-bold">Global Uncertainty Propagation</h3>
                 <p class="text-slate-600 text-sm">
-                    A visualization of the uncertainty of the state of a rigid body propagated via Euler's equations. Uncertainty propagation is a critical component of state estimation using Bayesian inference.</p>
+                    A visualization of the uncertainty of the state of a rigid body propagated via Euler's equations. Uncertainty propagation is a critical component of state estimation using Bayesian inference.
+                </p>
             </div>
             
-                                     <div class="space-y-4">
-                <div class="video-container shadow-xl">
-                    <iframe src="https://www.youtube.com/embed/YR-ZBfq8mng?si=mUCXi-lkTm3nsgRo" title="Deterministic Collisions with Sharp Interfaces" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="space-y-4">
+                <div class="video-container shadow-2xl">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/YR-ZBfq8mng" 
+                        title="Deterministic Collisions with Sharp Interfaces" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
                 <h3 class="text-xl font-bold">Deterministic Collisions with Sharp Interfaces</h3>
                 <p class="text-slate-600 text-sm">
-                    Rigid body dynamics with collisions involving sharp interfaces. Introduced a novel regularization that yields deterministic dynamics while retaining sensitive dependence on initial conditions. Notice the two cubes start to diverge after multiple collisions.</p>
+                    Rigid body dynamics with collisions involving sharp interfaces. Introduced a novel regularization that yields deterministic dynamics while retaining sensitive dependence on initial conditions.
+                </p>
             </div>
             
-            
-                        <div class="space-y-4">
-                <div class="video-container shadow-xl">
-                    <iframe src="https://www.youtube.com/embed/O7gq9hPXztg?si=gwo0muzaKexvO0Va" title="Geometric Numerical Integration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="space-y-4">
+                <div class="video-container shadow-2xl">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/O7gq9hPXztg" 
+                        title="Geometric Numerical Integration" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
                 <h3 class="text-xl font-bold">Geometric Numerical Integration</h3>
                 <p class="text-slate-600 text-sm">
-                    An introduction to geometric numerical integration and its role in the simulation of complex engineered systems like robots and drones.</p>
+                    An introduction to geometric numerical integration and its role in the simulation of complex engineered systems like robots and drones.
+                </p>
             </div>
             
-            
             <div class="space-y-4">
-                <div class="video-container shadow-xl">
-                    <iframe src="https://www.youtube.com/embed/tGpVNd5vDDc?si=7T17WwdoQUJ0_Kpn" title="Geometric Foundations of Accelerated Optimization" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-container shadow-2xl">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/tGpVNd5vDDc" 
+                        title="Geometric Foundations of Accelerated Optimization" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
                 <h3 class="text-xl font-bold">Geometric Foundations of Accelerated Optimization</h3>
                 <p class="text-slate-600 text-sm">
@@ -139,8 +192,15 @@
             </div>
 
             <div class="space-y-4">
-                <div class="video-container shadow-xl">
-                    <iframe src="https://www.youtube.com/embed/jfMzC63f1Xg?si=x7JMIDZ0mXb0J9u-" title="Geometric Formulations of Field Theories" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-container shadow-2xl">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/jfMzC63f1Xg" 
+                        title="Geometric Formulations of Field Theories" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
                 <h3 class="text-xl font-bold">Geometric Formulations of Field Theories</h3>
                 <p class="text-slate-600 text-sm">
@@ -155,7 +215,7 @@
         <p>&copy; 2026 MATHML.AI</p>
     </footer>
     
-<!-- Default Statcounter code for mathml.ai
+    <!-- Default Statcounter code for mathml.ai
 https://mathml.ai -->
 <script type="text/javascript">
 var sc_project=13224859; 
@@ -172,32 +232,28 @@ src="https://c.statcounter.com/13224859/0/1724f293/1/"
 alt="Web Analytics"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 <!-- End of Statcounter Code -->
+    
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
 
-<script>
-    const menuBtn = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-
-    menuBtn.addEventListener('click', () => {
-        // Toggle the 'open' class which controls the height and padding
-        mobileMenu.classList.toggle('open');
-        
-        // Change the SVG path to an 'X' icon when open, and back to hamburger when closed
-        if (mobileMenu.classList.contains('open')) {
-            menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-        } else {
-            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-        }
-    });
-
-    // Optional: Close the menu automatically when a link is clicked
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            if (mobileMenu.classList.contains('open')) {
+                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+            } else {
+                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+            }
         });
-    });
-</script>
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+            });
+        });
+    </script>
 
 </body>
 </html>
