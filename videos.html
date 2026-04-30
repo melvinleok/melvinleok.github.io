@@ -8,31 +8,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 1rem;
+        .hero-bg {
+            background: radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
         }
-    </style>
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        
+                /* Mobile menu transition */
+#mobile-menu {
+    transition: all 0.3s ease-in-out;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none; /* Prevents clicking links while hidden */
+}
+
+#mobile-menu.open {
+    max-height: 500px; /* Ensure this is taller than your total menu height */
+    opacity: 1;
+    pointer-events: auto;
+}    </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-white text-slate-900 selection:bg-blue-100">
 
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">M</div>
-<a href="/" class="flex items-center gap-2">
-            <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
-        </a>
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">M</div>
+                <span class="text-xl font-extrabold tracking-tight">mathml<span class="text-blue-600">.ai</span></span>
             </div>
             <div class="hidden md:flex gap-8 font-semibold text-slate-600">
             <a href="research.html" class="hover:text-blue-600 transition">Research</a>
@@ -40,10 +49,32 @@
             <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
             <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
             </div>
+            
+             <div class="hidden md:block">
             <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
                 Contact Us
             </a>
         </div>
+        
+        
+        <button id="menu-btn" class="md:hidden p-2 text-slate-600 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-slate-50 shadow-inner">
+    <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
+        <a href="research.html" class="hover:text-blue-600 transition">Research</a>
+        <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
+        <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+        <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
+        <a href="contact.html" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
+            Contact Us
+        </a>
+    </div>
+</div>
     </nav>
 
     <header class="py-16 px-6 text-center bg-white border-b border-slate-200">
@@ -139,6 +170,32 @@ src="https://c.statcounter.com/13224859/0/1724f293/1/"
 alt="Web Analytics"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 <!-- End of Statcounter Code -->
+
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    menuBtn.addEventListener('click', () => {
+        // Toggle the 'open' class which controls the height and padding
+        mobileMenu.classList.toggle('open');
+        
+        // Change the SVG path to an 'X' icon when open, and back to hamburger when closed
+        if (mobileMenu.classList.contains('open')) {
+            menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+        } else {
+            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        }
+    });
+
+    // Optional: Close the menu automatically when a link is clicked
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        });
+    });
+</script>
 
 </body>
 </html>
