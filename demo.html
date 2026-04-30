@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symplectic Integrator Demo | mathml.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        canvas { border-radius: 1rem; background: #0f172a; width: 100%; height: 300px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-8 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">M</div>
+                <span class="font-bold tracking-tight">mathml<span class="text-blue-600">.ai</span></span>
+            </a>
+            <a href="research.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600">Back to Research</a>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto py-12 px-6">
+        <header class="mb-12">
+            <h1 class="text-3xl font-black mb-4">Integrator Stability Demo</h1>
+            <p class="text-slate-600 leading-relaxed">
+                Visualizing the "Numerical Drift" in a Simple Harmonic Oscillator. Standard integrators suffer from energy dissipation or gain, while <strong>variational integrators</strong> preserve the symplectic structure and exhibit excellent energy behavior over long timescales.
+            </p>
+        </header>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-4">Simulation Parameters</label>
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-xs text-slate-500 uppercase font-bold">Time Step (dt)</span>
+                            <input type="range" id="dtRange" min="0.01" max="0.2" step="0.01" value="0.1" class="w-full">
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-500 uppercase font-bold">Spring Constant (k)</span>
+                            <input type="range" id="kRange" min="0.1" max="2" step="0.1" value="1" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-slate-100 flex gap-4">
+                    <button id="resetBtn" class="flex-1 bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-blue-600 transition">Reset Simulation</button>
+                </div>
+
+                <div class="p-4 bg-blue-50 rounded-2xl">
+                    <h4 class="text-blue-700 font-bold text-sm mb-2">Mathematical Insight</h4>
+                    <p class="text-blue-600 text-xs leading-relaxed">
+                        Notice how <strong>Forward Euler</strong> (Red) spirals outward, artificially gaining energy. The <strong>Symplectic Euler</strong> (Green) maintains a stable orbit, respecting the Hamiltonian energy manifold.
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">Phase Space (q vs p)</h3>
+                    <canvas id="phaseCanvas"></canvas>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">Energy Level over Time</h3>
+                    <canvas id="energyCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const phaseCanvas = document.getElementById('phaseCanvas');
+        const energyCanvas = document.getElementById('energyCanvas');
+        const ctxP = phaseCanvas.getContext('2d');
+        const ctxE = energyCanvas.getContext('2d');
+        
+        let dt = 0.1;
+        let k = 1.0;
+        const m = 1.0;
+
+        let stateEuler = { q: 1, p: 0, path: [], energyHistory: [] };
+        let stateSymp = { q: 1, p: 0, path: [], energyHistory: [] };
+
+        function reset() {
+            stateEuler = { q: 1, p: 0, path: [], energyHistory: [] };
+            stateSymp = { q: 1, p: 0, path: [], energyHistory: [] };
+            dt = parseFloat(document.getElementById('dtRange').value);
+            k = parseFloat(document.getElementById('kRange').value);
+        }
+
+        function step() {
+            // Forward Euler (Standard)
+            let oldQ_E = stateEuler.q;
+            let oldP_E = stateEuler.p;
+            stateEuler.q += dt * (oldP_E / m);
+            stateEuler.p -= dt * (k * oldQ_E);
+            stateEuler.energyHistory.push(0.5 * (stateEuler.p**2/m + k * stateEuler.q**2));
+            stateEuler.path.push({q: stateEuler.q, p: stateEuler.p});
+
+            // Symplectic Euler (Structure Preserving)
+            stateSymp.p -= dt * (k * stateSymp.q); // p_{n+1} update
+            stateSymp.q += dt * (stateSymp.p / m); // q_{n+1} update using new p
+            stateSymp.energyHistory.push(0.5 * (stateSymp.p**2/m + k * stateSymp.q**2));
+            stateSymp.path.push({q: stateSymp.q, p: stateSymp.p});
+
+            if(stateEuler.path.length > 500) {
+                stateEuler.path.shift();
+                stateSymp.path.shift();
+                stateEuler.energyHistory.shift();
+                stateSymp.energyHistory.shift();
+            }
+        }
+
+        function draw() {
+            ctxP.clearRect(0,0, phaseCanvas.width, phaseCanvas.height);
+            ctxE.clearRect(0,0, energyCanvas.width, energyCanvas.height);
+
+            const centerX = phaseCanvas.width / 2;
+            const centerY = phaseCanvas.height / 2;
+            const scale = 50;
+
+            // Draw Paths
+            drawPath(ctxP, stateEuler.path, '#ef4444', centerX, centerY, scale); // Red
+            drawPath(ctxP, stateSymp.path, '#22c55e', centerX, centerY, scale); // Green
+
+            // Draw Energy Graph
+            drawEnergy(ctxE, stateEuler.energyHistory, '#ef4444');
+            drawEnergy(ctxE, stateSymp.energyHistory, '#22c55e');
+
+            step();
+            requestAnimationFrame(draw);
+        }
+
+        function drawPath(ctx, path, color, cx, cy, s) {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            path.forEach((pt, i) => {
+                if(i === 0) ctx.moveTo(cx + pt.q * s, cy - pt.p * s);
+                else ctx.lineTo(cx + pt.q * s, cy - pt.p * s);
+            });
+            ctx.stroke();
+        }
+
+        function drawEnergy(ctx, history, color) {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
