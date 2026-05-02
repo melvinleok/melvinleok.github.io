@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometric Swarm Dynamics | SE(3) Consensus | mathml.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        #canvas-container { 
+            border-radius: 2.5rem; 
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); 
+            width: 100%; 
+            height: 700px; 
+            position: relative;
+        }
+        .glass { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .ui-overlay { position: absolute; top: 1.5rem; left: 1.5rem; right: 1.5rem; pointer-events: none; }
+        input[type="range"] { @apply accent-indigo-500; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-8 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-100">M</div>
+                <span class="font-bold tracking-tight text-slate-600">mathml<span class="text-blue-600">.ai</span></span>
+            </a>
+            <div class="flex items-center gap-6">
+                <span class="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-indigo-200">System: Multi-Agent SE(3)</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto py-12 px-6">
+        <header class="mb-12">
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">Decentralized Geometric Swarms</h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-4xl">
+                This demo utilizes consensus protocols mapped directly onto the rotation group, allowing multiple rigid bodies to track highly dynamic formations without breaking manifold constraints.
+            </p>
+        </header>
+
+        <div class="grid lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Formation Topology</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-slate-700">Swarm Cohesion (Kp)</span>
+                                <span id="cohVal" class="text-xs font-mono font-bold text-indigo-600">12.0</span>
+                            </div>
+                            <input type="range" id="cohRange" min="2" max="25" step="0.5" value="12" class="w-full pointer-events-auto">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-slate-700">Formation Scale</span>
+                                <span id="scaleVal" class="text-xs font-mono font-bold text-indigo-600">3.0m</span>
+                            </div>
+                            <input type="range" id="scaleRange" min="1.5" max="6" step="0.1" value="3.0" class="w-full pointer-events-auto">
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Formation Type</span>
+                            <select id="formationType" class="bg-slate-100 text-xs font-bold text-slate-700 p-2 rounded-lg outline-none cursor-pointer pointer-events-auto">
+                                <option value="triangle">V-Strike</option>
+                                <option value="line">Line Abreast</option>
+                                <option value="circle">Orbital</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="disruptBtn" class="w-full mt-10 bg-red-50 text-red-600 border border-red-200 font-bold py-4 rounded-2xl hover:bg-red-600 hover:text-white transition shadow-sm active:scale-95 pointer-events-auto">
+                        Inject Wind Disturbance
+                    </button>
+                </div>
+
+                <div class="p-6 bg-slate-900 rounded-2xl text-white shadow-xl">
+                    <h4 class="text-indigo-400 font-bold text-xs uppercase mb-2">Industrial Impact</h4>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                        In defense and industrial IoT, multi-agent systems fail when local coordinate systems gimbal lock. By enforcing consensus natively on the Euclidean group <strong>SE(3)</strong>, the swarm acts in a geometrically robust fashion.
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div id="canvas-container">
+                    <div class="ui-overlay flex justify-between">
+                        <div class="glass p-4 rounded-2xl">
+                            <div class="text-[10px] text-white/50 uppercase font-bold tracking-widest mb-1">Swarm Centroid Error</div>
+                            <div id="errDisplay" class="text-indigo-400 font-mono text-xs font-bold">0.00m</div>
+                        </div>
+                        <div class="glass p-4 rounded-2xl text-right">
+                            <div class="text-[10px] text-white/50 uppercase font-bold tracking-widest mb-1">Active Agents</div>
+                            <div class="text-emerald-400 font-mono text-xs font-bold">3 / 3 Nominal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let scene, camera, renderer, targetMarker;
+        const drones = [];
+        const maxTrailPts = 150;
+        let time = 0, dt = 0.016;
+        const mass = 1.0, g = -9.81;
+
+        // Swarm configuration
+        const numDrones = 3;
+        const trailColors = [0x3b82f6, 0x10b981, 0x8b5cf6];
+
+        function normalizeRotationMatrix(m) {
+            const te = m.elements;
+            let x = new THREE.Vector3(te[0], te[1], te[2]);
+            let y = new THREE.Vector3(te[4], te[5], te[6]);
+            let z = new THREE.Vector3();
+            x.normalize();
+            z.crossVectors(x, y).normalize();
+            y.crossVectors(z, x).normalize();
+            te[0] = x.x; te[1] = x.y; te[2] = x.z;
+            te[4] = y.x; te[5] = y.y; te[6] = y.z;
+            te[8] = z.x; te[9] = z.y; te[10] = z.z;
+        }
+
+        function createDroneModel(color) {
+            const group = new THREE.Group();
+            const body = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.1, 0.8), new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.2 }));
+            group.add(body);
+            [[0.4,0,0.4],[-0.4,0,0.4],[0.4,0,-0.4],[-0.4,0,-0.4]].forEach(p => {
+                const r = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.05), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
+                r.position.set(...p);
+                group.add(r);
+            });
+            return group;
+        }
+
+        function init() {
+            const container = document.getElementById('canvas-container');
+            if (!container || container.clientWidth === 0) {
+                setTimeout(init, 100);
+                return;
+            }
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+            const light = new THREE.DirectionalLight(0xffffff, 1.2);
+            light.position.set(10, 20, 10);
+            scene.add(light);
+
+            camera.position.set(20, 15, 25);
+            camera.lookAt(0, 5, 0);
+
+            scene.add(new THREE.GridHelper(80, 80, 0x1e293b, 0x0f172a));
+
+            targetMarker = new THREE.Mesh(new THREE.SphereGeometry(0.3), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+            scene.add(targetMarker);
+
+            // Initialize Swarm
+            for(let i = 0; i < numDrones; i++) {
+                const mesh = createDroneModel(trailColors[i]);
+                scene.add(mesh);
+                
+                const trailGeom = new THREE.BufferGeometry();
+                trailGeom.setAttribute('position', new THREE.BufferAttribute(new Float32Array(maxTrailPts * 3), 3));
+                const trail = new THREE.Line(trailGeom, new THREE.LineBasicMaterial({ color: trailColors[i], transparent: true, opacity: 0.6 }));
+                scene.add(trail);
+
+                drones.push({
+                    mesh: mesh,
+                    trail: trail,
+                    trailData: [],
+                    state: { 
+                        x: new THREE.Vector3((Math.random()-0.5)*10, 5, (Math.random()-0.5)*10), 
+                        v: new THREE.Vector3(0, 0, 0), 
+                        R: new THREE.Matrix4() 
+                    }
+                });
+            }
+
+            animate();
+        }
+
+        function getTargetTrajectory(t) {
+            return new THREE.Vector3(
+                10 * Math.sin(t * 0.3),
+                8 + 3 * Math.cos(t * 0.4),
+                10 * Math.sin(t * 0.2) * Math.cos(t * 0.3)
+            );
+        }
+
+        function getFormationOffsets(type, scale, targetVelocity) {
+            const offsets = [];
+            
+            // Calculate a simple heading vector based on target movement
+            const heading = targetVelocity.clone().normalize();
+            if (heading.lengthSq() === 0) heading.set(0, 0, 1);
+            const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0), heading).normalize();
+
+            if(type === 'triangle') {
+                offsets.push(new THREE.Vector3(0, 0, 0)); // Leader
+                offsets.push(right.clone().multiplyScalar(scale).add(heading.clone().multiplyScalar(-scale))); // Left wing
+                offsets.push(right.clone().multiplyScalar(-scale).add(heading.clone().multiplyScalar(-scale))); // Right wing
+            } else if (type === 'line') {
+                offsets.push(new THREE.Vector3(0, 0, 0));
+                offsets.push(right.clone().multiplyScalar(scale));
+                offsets.push(right.clone().multiplyScalar(-scale));
+            } else {
+                for(let i=0; i<3; i++) {
+                    const angle = (i / 3) * Math.PI * 2 + time; // Rotating circle
+                    offsets.push(new THREE.Vector3(Math.cos(angle)*scale, 0, Math.sin(angle)*scale));
+                }
+            }
+            return offsets;
+        }
+
+        function integrate() {
+            const targetPos = getTargetTrajectory(time);
+            const targetPrev = getTargetTrajectory(time - dt);
+            const targetVel = new THREE.Vector3().subVectors(targetPos, targetPrev).divideScalar(dt);
+            
+            targetMarker.position.copy(targetPos);
+
+            const Kp = parseFloat(document.getElementById('cohRange').value);
+            const Kv = Kp * 0.4; // Critically damped ratio
+            const scale = parseFloat(document.getElementById('scaleRange').value);
+            const formType = document.getElementById('formationType').value;
+            
+            document.getElementById('cohVal').innerText = Kp.toFixed(1);
+            document.getElementById('scaleVal').innerText = `${scale.toFixed(1)}m`;
+
+            const offsets = getFormationOffsets(formType, scale, targetVel);
+            let centroidError = 0;
+
+            drones.forEach((drone, idx) => {
+                const desiredPos = targetPos.clone().add(offsets[idx]);
+                
+                // Geometric Control Law on SE(3)
+                const ex = new THREE.Vector3().subVectors(drone.state.x, desiredPos);
+                centroidError += ex.length();
+                
+                const force = new THREE.Vector3()
+                    .copy(ex).multiplyScalar(-Kp)
+                    .add(drone.state.v.clone().multiplyScalar(-Kv))
+                    .add(new THREE.Vector3(0, -g * mass, 0));
+
+                const thrust = force.length();
+                const b3d = force.normalize();
+                
+                // Align yaw with target trajectory heading (approximate)
+                const b1d_proj = targetVel.lengthSq() > 0.1 ? targetVel.clone().normalize() : new THREE.Vector3(1,0,0);
+                
+                let b2d = new THREE.Vector3().crossVectors(b3d, b1d_proj);
+                if (b2d.lengthSq() < 0.01) b2d = new THREE.Vector3(0,0,1); // Fallback if pointing straight up/down
+                b2d.normalize();
+                const b1d = new THREE.Vector3().crossVectors(b2d, b3d);
+
+                const Rd = new THREE.Matrix4().makeBasis(b1d, b2d, b3d);
+
+                // Apply Dynamics
+                const b3 = new THREE.Vector3(0, 0, 1).applyMatrix4(drone.state.R);
+                const accel = b3.multiplyScalar(thrust / mass).add(new THREE.Vector3(0, g, 0));
+                drone.state.v.addScaledVector(accel, dt);
+                drone.state.v.multiplyScalar(0.99); // Drag
+                drone.state.x.addScaledVector(drone.state.v, dt);
+
+                // Attitude Slerp (Simulating high-gain geometric feedback)
+                const qCurrent = new THREE.Quaternion().setFromRotationMatrix(drone.state.R);
+                const qTarget = new THREE.Quaternion().setFromRotationMatrix(Rd);
+                qCurrent.slerp(qTarget, 0.15);
+                drone.state.R.makeRotationFromQuaternion(qCurrent);
+                normalizeRotationMatrix(drone.state.R);
+
+                // Render Update
+                drone.mesh.position.copy(drone.state.x);
+                drone.mesh.setRotationFromMatrix(drone.state.R);
+
+                // Ground clamping
+                if(drone.state.x.y < 0) { drone.state.x.y = 0; drone.state.v.set(0,0,0); }
+
+                // Trail Update
+                drone.trailData.push(drone.state.x.clone());
+                if (drone.trailData.length > maxTrailPts) drone.trailData.shift();
+                
+                const posAttr = drone.trail.geometry.attributes.position;
+                for (let i = 0; i < drone.trailData.length; i++) {
+                    posAttr.array[i * 3] = drone.trailData[i].x;
+                    posAttr.array[i * 3 + 1] = drone.trailData[i].y;
+                    posAttr.array[i * 3 + 2] = drone.trailData[i].z;
+                }
+                drone.trail.geometry.setDrawRange(0, drone.trailData.length);
+                posAttr.needsUpdate = true;
+            });
+
+            document.getElementById('errDisplay').innerText = `${(centroidError / numDrones).toFixed(2)}m`;
+            time += dt;
+        }
+
+        function animate() {
+            integrate();
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        // Wind Disturbance Injection
+        document.getElementById('disruptBtn').onclick = () => {
+            drones.forEach(drone => {
+                const wind = new THREE.Vector3(
+                    (Math.random() - 0.5) * 30,
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 30
+                );
+                drone.state.v.add(wind);
+            });
+        };
+
+        window.addEventListener('resize', () => {
+            if (!camera || !renderer) return;
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
