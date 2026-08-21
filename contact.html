@@ -150,10 +150,20 @@
                     </div>
 
                     <input type="hidden" name="_subject" value="New Inquiry from MathML.ai">
+                    <!-- Keeps the visitor on mathml.ai after submitting instead of
+                         landing them on Formspree's own hosted "Thank You" page. -->
+                    <input type="hidden" name="_next" value="https://mathml.ai/thanks.html">
 
                     <button type="submit" class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl shadow-lg shadow-blue-100 hover:bg-blue-700 hover:-translate-y-1 transition text-lg">
                         Send Message
                     </button>
+
+                    <p class="text-xs text-slate-400 text-center leading-relaxed pt-2">
+                        Your message is relayed to us by email through
+                        <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener"
+                           class="underline hover:text-blue-600 transition">Formspree</a>,
+                        our form processor. This site uses no analytics, advertising, or tracking cookies.
+                    </p>
                 </form>
             </div>
 
