@@ -35,6 +35,30 @@
             opacity: 1;
             pointer-events: auto;
         }
+        /* Six nav items overflow between 768px and ~900px, so the hamburger
+           covers that band. Driven by ids, so it does not depend on Tailwind
+           utilities that the pre-built tailwind.css may not contain. */
+        @media (max-width: 899.98px) {
+            #nav-desktop, #nav-cta { display: none; }
+            #menu-btn { display: block; }
+            #mobile-menu { display: block; }
+        }
+        @media (min-width: 900px) {
+            #menu-btn { display: none; }
+            #mobile-menu { display: none; }
+        }
+
+        /* Utilities absent from the pre-built tailwind.css. */
+        .border-l-2{border-left-width:2px}
+        .mb-14{margin-bottom:3.5rem}
+        @media (min-width:768px){.md\:p-10{padding:2.5rem}}
+        @media (min-width:768px){.md\:p-14{padding:3.5rem}}
+        @media (min-width:768px){.md\:text-3xl{font-size:1.875rem;line-height:2.25rem}}
+        .pl-4{padding-left:1rem}
+        .pt-8{padding-top:2rem}
+        .rounded-r-2xl{border-top-right-radius:1rem;border-bottom-right-radius:1rem}
+        .space-y-5>:not([hidden])~:not([hidden]){margin-top:1.25rem}
+        .whitespace-nowrap{white-space:nowrap}
     </style>
 </head>
 <body class="bg-white text-slate-900 selection:bg-blue-100">
@@ -47,7 +71,7 @@
                     <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
                 </a>
             </div>
-            <div class="hidden lg:flex gap-6 font-semibold text-slate-600">
+            <div id="nav-desktop" class="hidden md:flex gap-6 font-semibold text-slate-600">
             <a href="research.html" class="hover:text-blue-600 transition">Research</a>
             <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
             <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
@@ -55,20 +79,20 @@
             <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
             </div>
 
-            <div class="hidden lg:block">
+            <div id="nav-cta" class="hidden md:block">
                 <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
                     Contact Us
                 </a>
             </div>
 
-            <button id="menu-btn" class="lg:hidden p-2 text-slate-600 focus:outline-none">
+            <button id="menu-btn" class="md:hidden p-2 text-slate-600 focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </div>
 
-        <div id="mobile-menu" class="lg:hidden bg-white border-t border-slate-50 shadow-inner">
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-slate-50 shadow-inner">
     <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
         <a href="research.html" class="hover:text-blue-600 transition">Research</a>
         <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
@@ -175,7 +199,7 @@
                 <h3 class="text-2xl md:text-3xl font-bold mb-4">Training your team instead</h3>
                 <p class="text-slate-400 leading-relaxed">Three on-site short courses cover the same ground as the engagements above, for teams that would rather build the capability internally: applied Lie groups, estimation on SO(3) and SE(3), and adjoint sensitivity methods.</p>
             </div>
-            <a href="courses.html" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-900/40 whitespace-nowrap">
+            <a href="courses.html" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-lg whitespace-nowrap">
                 See the courses
             </a>
         </div>

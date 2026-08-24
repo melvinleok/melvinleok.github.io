@@ -33,7 +33,19 @@
     max-height: 500px; /* Ensure this is taller than your total menu height */
     opacity: 1;
     pointer-events: auto;
-}    </style>
+}
+        /* Six nav items overflow between 768px and ~900px, so the hamburger
+           covers that band. Driven by ids, so it does not depend on Tailwind
+           utilities that the pre-built tailwind.css may not contain. */
+        @media (max-width: 899.98px) {
+            #nav-desktop, #nav-cta { display: none; }
+            #menu-btn { display: block; }
+            #mobile-menu { display: block; }
+        }
+        @media (min-width: 900px) {
+            #menu-btn { display: none; }
+            #mobile-menu { display: none; }
+        }    </style>
 </head>
 <body class="bg-white text-slate-900 selection:bg-blue-100">
 
@@ -45,7 +57,7 @@
             <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
         </a>
             </div>
-            <div class="hidden lg:flex gap-8 font-semibold text-slate-600">
+            <div id="nav-desktop" class="hidden md:flex gap-8 font-semibold text-slate-600">
             <a href="research.html" class="hover:text-blue-600 transition">Research</a>
             <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
             <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
@@ -53,21 +65,21 @@
             <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
             </div>
             
-             <div class="hidden lg:block">
+             <div id="nav-cta" class="hidden md:block">
             <a href="founder.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
                 Founder
             </a>
         </div>
         
         
-        <button id="menu-btn" class="lg:hidden p-2 text-slate-600 focus:outline-none">
+        <button id="menu-btn" class="md:hidden p-2 text-slate-600 focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </div>
 
-        <div id="mobile-menu" class="lg:hidden bg-white border-t border-slate-50 shadow-inner">
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-slate-50 shadow-inner">
     <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
         <a href="research.html" class="hover:text-blue-600 transition">Research</a>
         <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
