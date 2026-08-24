@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Courses | mathml.ai</title>
+    <meta name="description" content="On-site short courses for engineering teams: applied Lie groups, estimation on SO(3) and SE(3), and adjoint sensitivity methods.">
+    <link rel="stylesheet" href="tailwind.css">
+    <link rel="stylesheet" href="fonts/inter.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .service-icon { background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 100%); }
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-bg {
+            background: radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+        }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        #mobile-menu.open {
+            max-height: 600px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 selection:bg-blue-100">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">M</div>
+                <a href="/" class="flex items-center gap-2">
+                    <span class="text-xl font-bold tracking-tight text-slate-600 hover:text-blue-600 transition">mathml<span class="text-blue-600">.ai</span></span>
+                </a>
+            </div>
+            <div class="hidden lg:flex gap-6 font-semibold text-slate-600">
+            <a href="research.html" class="hover:text-blue-600 transition">Research</a>
+            <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
+            <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+            <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
+            <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
+            </div>
+
+            <div class="hidden lg:block">
+                <a href="contact.html" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200">
+                    Contact Us
+                </a>
+            </div>
+
+            <button id="menu-btn" class="lg:hidden p-2 text-slate-600 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="lg:hidden bg-white border-t border-slate-50 shadow-inner">
+    <div class="px-6 py-4 flex flex-col gap-4 font-semibold text-slate-600">
+        <a href="research.html" class="hover:text-blue-600 transition">Research</a>
+        <a href="interconnected.html" class="hover:text-blue-600 transition">Interconnected</a>
+        <a href="founder.html" class="hover:text-blue-600 transition">Founder</a>
+        <a href="consulting.html" class="hover:text-blue-600 transition">Consulting</a>
+        <a href="videos.html" class="hover:text-blue-600 transition">Videos</a>
+        <a href="contact.html" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-600 transition mt-2">
+            Contact Us
+        </a>
+    </div>
+</div>
+    </nav>
+
+    <header class="hero-bg py-20 px-6 border-b border-slate-200">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+                Short Courses for <span class="gradient-text">Engineering Teams</span>
+            </h1>
+            <p class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
+                Delivered on-site, typically to groups of eight to twenty engineers. Each course assumes a working engineer's background and builds the geometry from there. No prior exposure to differential geometry is required.
+            </p>
+        </div>
+    </header>
+
+    <section class="bg-slate-50 py-24 px-6">
+        <div class="max-w-5xl mx-auto space-y-8">
+
+                <div class="glass-card p-8 md:p-10 rounded-3xl">
+                    <div class="flex items-start gap-5 mb-6">
+                        <div class="w-12 h-12 service-icon rounded-xl flex items-center justify-center text-white font-bold flex-shrink-0">LG</div>
+                        <div>
+                            <h3 class="text-2xl font-bold leading-tight">Applied Lie Groups for Engineers</h3>
+                            <div class="flex flex-wrap gap-2 mt-3"><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">3 days</span><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">On-site or remote</span><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">No differential geometry assumed</span></div>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed mb-6">The geometry that rotations and rigid-body motions actually live on, built from an engineer's background rather than from a manifolds course.</p>
+                    <div class="space-y-2 text-sm mb-8">
+                        <p class="text-slate-600"><span class="font-bold text-slate-900">For:</span> engineers working on attitude determination, rigid-body dynamics, robot kinematics, pose estimation, and spacecraft or vehicle control.</p>
+                        <p class="text-slate-600"><span class="font-bold text-slate-900">Prerequisites:</span> linear algebra, ordinary differential equations, and undergraduate mechanics.</p>
+                    </div>
+                    <div class="border-t border-slate-200 pt-6 space-y-5">
+                        <div>
+                            <div class="font-bold text-slate-900 mb-1">Day 1. Rotations and rigid motions</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">Why Euler angles fail, and what gimbal lock is a symptom of. Quaternions and the double cover. SO(3) as a manifold, the exponential and logarithm maps, and the adjoint representation.</p>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 mb-1">Day 2. Kinematics and dynamics on SE(3)</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">Twists, wrenches, and the Lie algebra se(3). Body and spatial frames, and the errors that come from confusing them. Rigid-body equations of motion on the group, momentum maps, and what symmetry buys you.</p>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 mb-1">Day 3. Computation</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">Integrating on the group without drifting off it, and why re-orthonormalizing a rotation matrix is a symptom rather than a fix. Lie group integrators, interpolation and splines on SO(3), and optimization over rotations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-8 md:p-10 rounded-3xl">
+                    <div class="flex items-start gap-5 mb-6">
+                        <div class="w-12 h-12 service-icon rounded-xl flex items-center justify-center text-white font-bold flex-shrink-0">EST</div>
+                        <div>
+                            <h3 class="text-2xl font-bold leading-tight">Estimation on SO(3) and SE(3)</h3>
+                            <div class="flex flex-wrap gap-2 mt-3"><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">2 days</span><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">On-site or remote</span><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">Follows the Lie groups course</span></div>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed mb-6">Why filters that are well-behaved in simulation degrade in flight, and what to do about it.</p>
+                    <div class="space-y-2 text-sm mb-8">
+                        <p class="text-slate-600"><span class="font-bold text-slate-900">For:</span> navigation, GNC, robotics perception, and sensor fusion teams.</p>
+                        <p class="text-slate-600"><span class="font-bold text-slate-900">Prerequisites:</span> Kalman filtering at a working level, and the material in the Lie groups course or equivalent familiarity with SO(3).</p>
+                    </div>
+                    <div class="border-t border-slate-200 pt-6 space-y-5">
+                        <div>
+                            <div class="font-bold text-slate-900 mb-1">Day 1. What goes wrong</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">What the covariance of a rotation actually means. Why a naive EKF on quaternions is inconsistent, and how that inconsistency shows up in flight but not on the bench. Error-state versus full-state formulations, and the multiplicative EKF.</p>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 mb-1">Day 2. What to do about it</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">The invariant EKF and the convergence properties that motivate it. Unscented filtering on manifolds. Pose-graph optimization on SE(3). Consistency testing, and how to tell when a filter is reporting a covariance it has not earned.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-8 md:p-10 rounded-3xl">
+                    <div class="flex items-start gap-5 mb-6">
+                        <div class="w-12 h-12 service-icon rounded-xl flex items-center justify-center text-white font-bold flex-shrink-0">ADJ</div>
+                        <div>
+                            <h3 class="text-2xl font-bold leading-tight">Adjoint Methods and Sensitivity Analysis</h3>
+                            <div class="flex flex-wrap gap-2 mt-3"><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">2 days</span><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">On-site or remote</span><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide">Design optimization and differentiable simulation</span></div>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed mb-6">Where gradients come from in a simulation-in-the-loop pipeline, when they stop being the gradients of what you are actually minimizing, and how to tell.</p>
+                    <div class="space-y-2 text-sm mb-8">
+                        <p class="text-slate-600"><span class="font-bold text-slate-900">For:</span> teams doing shape or design optimization, PDE-constrained control, or training models through a simulator.</p>
+                        <p class="text-slate-600"><span class="font-bold text-slate-900">Prerequisites:</span> numerical methods for PDEs or nonlinear optimization at a working level.</p>
+                    </div>
+                    <div class="border-t border-slate-200 pt-6 space-y-5">
+                        <div>
+                            <div class="font-bold text-slate-900 mb-1">Day 1. Where gradients come from</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">Forward versus adjoint sensitivity, and when each is the cheaper choice. Continuous versus discrete adjoints. Why discretize-then-optimize and optimize-then-discretize disagree, what that costs an optimizer, and when it can be removed. Checkpointing and the memory budget.</p>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 mb-1">Day 2. When gradients fail</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">Adjoint divergence for chaotic and long-horizon problems. Sensitivity to mesh quality, and the stabilization tricks that trade accuracy for convergence. Structure-preserving discretizations that bound long-horizon drift. How to test whether a gradient is correct rather than merely plausible.</p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">Formats</h2>
+            <h3 class="text-4xl font-extrabold tracking-tight mb-12">How engagements work</h3>
+
+            <div class="bg-blue-50 border-l-4 border-blue-600 rounded-r-2xl p-8 mb-12">
+                <p class="text-lg leading-relaxed"><strong class="font-bold">An introductory seminar is available at no charge.</strong> Sixty minutes with your engineering team, on-site or remote, on a topic from any of the areas above. It is the most efficient way for both of us to find out whether there is a problem here worth working on together.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 card-hover">
+                    <h4 class="text-xl font-bold mb-3">Seminar</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">One hour, no charge. A single technical topic, presented to your team, with time for questions about your specific setup.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 card-hover">
+                    <h4 class="text-xl font-bold mb-3">Short course</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Two or three days on-site, typically eight to twenty participants. Notes and worked examples included; exercises and code can be tailored to your problem domain on request.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 card-hover">
+                    <h4 class="text-xl font-bold mb-3">Technical review</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Fixed scope agreed in advance, usually two to four weeks, delivered as a written report with prioritized findings and specific recommendations.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 card-hover">
+                    <h4 class="text-xl font-bold mb-3">Ongoing advisory</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Recurring time with a team over a project's duration, arranged by the day or on a monthly basis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-24 px-6 text-center bg-slate-50">
+        <div class="max-w-2xl mx-auto bg-white p-12 rounded-[3rem] shadow-xl border border-slate-100">
+            <h2 class="text-3xl font-black mb-6">Schedule a course</h2>
+            <p class="text-slate-600 mb-10 leading-relaxed">Tell me the team, the problem domain, and roughly when. I will tell you which of these fits, or whether a technical review would serve you better than a course.</p>
+            <a href="contact.html" class="bg-blue-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-blue-700 transition shadow-lg shadow-blue-200">Contact</a>
+            <p class="mt-8 text-xs text-slate-400 font-medium uppercase tracking-widest">Courses can be tailored to your problem domain</p>
+        </div>
+    </section>
+
+
+    <footer class="py-16 bg-slate-50 border-t border-slate-100 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-10">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-sm">M</div>
+                    <span class="font-bold tracking-tight">mathml<span class="text-blue-600">.ai</span></span>
+                </div>
+                <p class="text-slate-400 text-sm tracking-wide">&copy; 2026 MATHML.AI</p>
+                <div class="flex gap-8 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                    <a href="https://www.linkedin.com/in/mleok/" class="hover:text-blue-600">LinkedIn</a>
+                    <a href="https://www.youtube.com/user/melvinleok" class="hover:text-blue-600">YouTube</a>
+                    <a href="https://arxiv.org/search/?searchtype=author&amp;query=Leok%2C+M" class="hover:text-blue-600">arXiv</a>
+                </div>
+            </div>
+            <p class="mt-10 pt-8 border-t border-slate-200 text-slate-400 text-xs leading-relaxed max-w-3xl">
+                Consulting and short courses are offered by Melvin Leok in his individual capacity as an outside professional activity. They are not services of, and are not endorsed by, the University of California, and University facilities, personnel, and resources are not used in their delivery.
+            </p>
+        </div>
+    </footer>
+
+
+    <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+        if (mobileMenu.classList.contains('open')) {
+            menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+        } else {
+            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        }
+    });
+
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+        });
+    });
+    </script>
+
+</body>
+</html>
+
